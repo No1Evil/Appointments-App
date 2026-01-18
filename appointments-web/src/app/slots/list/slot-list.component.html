@@ -1,0 +1,16 @@
+<h3>Slots</h3>
+<table class="slot-list">
+  <tr>
+    <th>Status</th>
+    <th>Service</th>
+    <th>Start</th>
+    <th>End</th>
+  </tr>
+  <tr *ngFor="let slot of slots">
+    <td>{{slot.status}}</td>
+    <td>{{slot.service}}</td>
+    <td>{{slot.startTime}}</td>
+    <td>{{slot.endTime}}</td>
+  </tr>
+</table>
+

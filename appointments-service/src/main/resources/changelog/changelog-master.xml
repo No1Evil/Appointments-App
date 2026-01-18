@@ -1,0 +1,18 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd" context="prod">
+
+  <changeSet id="create_schema" author="maksim.boiko@tsumakov.com">
+    <sql>
+      CREATE SCHEMA if NOT EXISTS appointments;
+      SET search_path TO appointments,public;
+    </sql>
+  </changeSet>
+
+  <include file="01-slots.sql" relativeToChangelogFile="true"/>
+
+  <include file="data/changelog-slots-data.xml" relativeToChangelogFile="true" />
+
+</databaseChangeLog>

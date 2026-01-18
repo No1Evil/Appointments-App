@@ -1,0 +1,30 @@
+micronaut:
+  server:
+    port: 8001
+
+datasources:
+  default:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: test
+    driver-class-name: org.postgresql.Driver
+    leak-detection-threshold: 5000
+    schema: appointments
+  liquibase:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: test
+    maximum-pool-size: 1
+    driver-class-name: org.postgresql.Driver
+    schema: appointments
+
+liquibase:
+  enabled: true
+  datasources:
+    liquibase:
+      enabled: true
+      change-log: 'classpath:changelog/changelog-master.xml'
+      default-schema: 'appointments'
+      liquibase-schema: 'public'
+      database-change-log-table: 'appointments_databasechangelog'
+      database-change-log-lock-table: 'appointments_databasechangeloglock'
