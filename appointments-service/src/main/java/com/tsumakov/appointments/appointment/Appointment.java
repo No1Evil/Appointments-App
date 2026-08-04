@@ -45,5 +45,6 @@ public class Appointment {
         this.startTime = newStart;
         this.endTime = newEnd;
         this.comment = newComment;
+        this.updatedAt = OffsetDateTime.now();
     }
 }
