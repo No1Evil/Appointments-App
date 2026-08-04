@@ -6,16 +6,15 @@
 
   <changeSet id="create_schema" author="maksim.boiko@tsumakov.com">
     <sql>
-      CREATE SCHEMA if NOT EXISTS appointments;
-      SET search_path TO appointments,public;
+      create schema if not exists appointments;
+      set
+      search_path to appointments,public;
     </sql>
   </changeSet>
 
-  <include file="01-slots.sql" relativeToChangelogFile="true"/>
+  <include file="slot/changelog-slot.xml" relativeToChangelogFile="true"/>
   <include file="patient/changelog-patient.xml" relativeToChangelogFile="true"/>
   <include file="practitioner/changelog-practitioner.xml" relativeToChangelogFile="true"/>
   <include file="appointments/changelog-appointments.xml" relativeToChangelogFile="true"/>
-
-  <include file="data/changelog-slots-data.xml" relativeToChangelogFile="true" />
 
 </databaseChangeLog>
