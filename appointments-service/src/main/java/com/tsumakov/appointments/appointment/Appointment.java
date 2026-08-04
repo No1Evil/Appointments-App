@@ -15,7 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Appointment {
     private UUID id;
-    private UUID slotId;
+    private Long slotId;
     private final UUID patientId;
     private final UUID practitionerId;
 
