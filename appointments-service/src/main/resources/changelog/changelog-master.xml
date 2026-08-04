@@ -12,6 +12,9 @@
   </changeSet>
 
   <include file="01-slots.sql" relativeToChangelogFile="true"/>
+  <include file="patient/changelog-patient.xml" relativeToChangelogFile="true"/>
+  <include file="practitioner/changelog-practitioner.xml" relativeToChangelogFile="true"/>
+  <include file="appointments/changelog-appointments.xml" relativeToChangelogFile="true"/>
 
   <include file="data/changelog-slots-data.xml" relativeToChangelogFile="true" />
 
