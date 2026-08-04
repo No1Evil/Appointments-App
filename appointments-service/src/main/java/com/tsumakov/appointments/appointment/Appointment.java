@@ -16,10 +16,10 @@ import java.util.UUID;
 public class Appointment {
     private UUID id;
     private UUID slotId;
-    private UUID patientId;
+    private final UUID patientId;
+    private final UUID practitionerId;
 
     private final String serviceName; // name of the service from the slot selected
-    private final UUID practitionerId;
     private OffsetDateTime startTime;
     private OffsetDateTime endTime;
     private String comment;
