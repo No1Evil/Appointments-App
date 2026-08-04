@@ -14,7 +14,7 @@ public interface CrudRepository<E, ID> {
 
     ID create(@Nonnull E entity) throws DataAccessException;
 
-    E update(@Nonnull E entity) throws DataAccessException;
+    boolean update(@Nonnull E entity) throws DataAccessException;
 
     boolean delete(@Nonnull ID identifier) throws DataAccessException;
 }
