@@ -17,6 +17,7 @@ dependencies {
   annotationProcessor("io.micronaut:micronaut-http-validation")
   annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
   annotationProcessor("io.micronaut:micronaut-inject-java")
+  annotationProcessor("org.mapstruct:mapstruct-processor:1.6.3")
 
   implementation("io.micronaut.serde:micronaut-serde-jackson")
   implementation("io.micronaut.liquibase:micronaut-liquibase")
@@ -24,6 +25,8 @@ dependencies {
   implementation("org.springframework:spring-jdbc")
   implementation("io.micronaut.spring:micronaut-spring")
   implementation("io.micronaut.sql:micronaut-jdbc-hikari")
+  implementation("org.mapstruct:mapstruct:1.6.3")
+  implementation("jakarta.validation:jakarta.validation-api:3.1.1")
 
   compileOnly("io.micronaut:micronaut-http-client")
   compileOnly("org.projectlombok:lombok")
