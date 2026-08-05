@@ -6,7 +6,7 @@ import spock.lang.Specification
 import jakarta.inject.Inject
 
 @MicronautTest
-class AppointmentServiceSpec extends Specification {
+class AppointmentServiceITSpec extends Specification {
 
     @Inject
     EmbeddedApplication<?> application
