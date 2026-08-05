@@ -11,10 +11,12 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Getter
+@ToString
 @Builder(access = AccessLevel.PACKAGE)
-@AllArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Appointment {
+    @EqualsAndHashCode.Include
     private UUID id;
     private Long slotId;
     private final UUID patientId;
