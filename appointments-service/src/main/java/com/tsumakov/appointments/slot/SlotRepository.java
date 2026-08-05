@@ -49,7 +49,7 @@ public class SlotRepository implements CrudRepository<Slot, Long> {
           service,
           start_time,
           end_time
-        ) values (?, ?, ?, ?, ?)
+        ) values (?, ?, ?, ?)
         """;
     int rowsUpdated = jdbcTemplate.update(sql, entity.getStatus().toString(),
         entity.getService().getCode(), entity.getStartTime(), entity.getEndTime());
