@@ -79,7 +79,7 @@ public class SlotRepository implements CrudRepository<Slot, Long> {
   }
 
   public List<Slot> listByFilter(SlotParams params) {
-    String sql = "select * from slot";
+    String sql = "select * from slots";
     sql += buildFilters(params);
     return jdbcTemplate.query(sql, rowMapper);
   }
