@@ -69,5 +69,14 @@ micronaut {
   }
 }
 
+test {
+    exclude("**/*ITSpec*")
+}
+
+tasks.register("integrationTest", Test) {
+    group = "verification"
+    include("**/*ITSpec*")
+}
+
 
 
