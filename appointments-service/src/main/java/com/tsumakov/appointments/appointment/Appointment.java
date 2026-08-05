@@ -16,38 +16,51 @@ import java.util.UUID;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Appointment {
-    @EqualsAndHashCode.Include
-    private UUID id;
-    private Long slotId;
-    private final UUID patientId;
-    private final UUID practitionerId;
 
-    private final String serviceName; // name of the service from the slot selected
-    private OffsetDateTime startTime;
-    private OffsetDateTime endTime;
-    private String comment;
+  @EqualsAndHashCode.Include
+  private UUID id;
+  private Long slotId;
+  private final UUID patientId;
+  private final UUID practitionerId;
 
-    private AppointmentStatus status;
+  private final String serviceName; // name of the service from the slot selected
+  private OffsetDateTime startTime;
+  private OffsetDateTime endTime;
+  private String comment;
 
-    private final OffsetDateTime createdAt;
-    private OffsetDateTime updatedAt;
+  private AppointmentStatus status;
 
-    public void cancel() {
-        if (this.status == AppointmentStatus.CANCELLED) {
-            throw new AppointmentAlreadyCancelled("Appointment is already cancelled");
-        } else if (this.status == AppointmentStatus.COMPLETED) {
-            throw new CannotCancelCompletedAppointment("Cannot cancel a completed appointment");
-        }
-        this.status = AppointmentStatus.CANCELLED;
-        this.updatedAt = OffsetDateTime.now();
+  private final OffsetDateTime createdAt;
+  private OffsetDateTime updatedAt;
+
+  public boolean isScheduled() {
+    return this.status == AppointmentStatus.SCHEDULED;
+  }
+
+  public boolean isCancelled() {
+    return this.status == AppointmentStatus.CANCELLED;
+  }
+
+  public boolean isCompleted() {
+    return this.status == AppointmentStatus.COMPLETED;
+  }
+
+  public void cancel() {
+    if (this.isCancelled()) {
+      throw new AppointmentAlreadyCancelled("Appointment is already cancelled");
+    } else if (this.isCompleted()) {
+      throw new CannotCancelCompletedAppointment("Cannot cancel a completed appointment");
     }
+    this.status = AppointmentStatus.CANCELLED;
+    this.updatedAt = OffsetDateTime.now();
+  }
 
-    public void updateDetails(OffsetDateTime newStart, OffsetDateTime newEnd, String newComment) {
-        AppointmentObjects.requireValidDates(newStart, newEnd);
-        Objects.requireNonNull(newComment);
-        this.startTime = newStart;
-        this.endTime = newEnd;
-        this.comment = newComment;
-        this.updatedAt = OffsetDateTime.now();
-    }
+  public void updateDetails(OffsetDateTime newStart, OffsetDateTime newEnd, String newComment) {
+    AppointmentObjects.requireValidDates(newStart, newEnd);
+    Objects.requireNonNull(newComment);
+    this.startTime = newStart;
+    this.endTime = newEnd;
+    this.comment = newComment;
+    this.updatedAt = OffsetDateTime.now();
+  }
 }
