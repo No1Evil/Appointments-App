@@ -20,7 +20,7 @@ public class PractitionerRepository implements CrudRepository<Practitioner, UUID
       .id(rs.getObject("id", UUID.class))
       .firstName(rs.getString("first_name"))
       .lastName(rs.getString("last_name"))
-      .specialty(rs.getString("specialty"))
+      .serviceName(rs.getString("service_name"))
       .build());
 
   @Override
@@ -47,7 +47,7 @@ public class PractitionerRepository implements CrudRepository<Practitioner, UUID
         ) values (?, ?, ?, ?)
         """;
     jdbcTemplate.update(sql, entity.getId(), entity.getFirstName(), entity.getLastName(),
-        entity.getSpecialty());
+        entity.getServiceName());
     return entity.getId();
   }
 
@@ -61,7 +61,7 @@ public class PractitionerRepository implements CrudRepository<Practitioner, UUID
         where id = ?
         """;
     int rowsUpdated = jdbcTemplate.update(sql, entity.getFirstName(), entity.getLastName(),
-        entity.getSpecialty(), entity.getId());
+        entity.getServiceName(), entity.getId());
     return rowsUpdated > 0;
   }
 

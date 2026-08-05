@@ -15,8 +15,9 @@ import lombok.ToString;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Practitioner {
-    private UUID id;
-    private String firstName;
-    private String lastName;
-    private String specialty;
+  @EqualsAndHashCode.Include
+  private UUID id;
+  private String firstName;
+  private String lastName;
+  private String serviceName;
 }
