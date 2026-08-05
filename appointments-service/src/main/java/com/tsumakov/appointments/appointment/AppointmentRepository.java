@@ -3,9 +3,9 @@ package dev.tsumakov.appointments.appointment;
 import dev.tsumakov.appointments.appointment.status.AppointmentStatus;
 import dev.tsumakov.appointments.common.repository.CrudRepository;
 import jakarta.annotation.Nullable;
+import java.time.OffsetDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.DataClassRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.lang.NonNull;
@@ -21,8 +21,19 @@ import java.util.UUID;
 public final class AppointmentRepository implements CrudRepository<Appointment, UUID> {
 
   private final JdbcTemplate jdbcTemplate;
-  private final RowMapper<Appointment> rowMapper =
-      DataClassRowMapper.newInstance(Appointment.class);
+  private final RowMapper<Appointment> rowMapper = ((rs, rowNum) -> Appointment.builder()
+      .id(rs.getObject("id", UUID.class))
+      .slotId(rs.getLong("slot_id"))
+      .patientId(rs.getObject("patient_id", UUID.class))
+      .practitionerId(rs.getObject("practitioner_id", UUID.class))
+      .serviceName(rs.getString("service_name"))
+      .startTime(rs.getObject("start_time", OffsetDateTime.class))
+      .endTime(rs.getObject("end_time", OffsetDateTime.class))
+      .comment(rs.getString("comment"))
+      .status(AppointmentStatus.valueOf(rs.getString("status")))
+      .createdAt(rs.getObject("created_at", OffsetDateTime.class))
+      .updatedAt(rs.getObject("updated_at", OffsetDateTime.class))
+      .build());
 
   @Override
   public Optional<Appointment> findBy(@NonNull UUID identifier) throws DataAccessException {

@@ -13,6 +13,7 @@ import java.util.UUID;
 @Getter
 @Builder(access = AccessLevel.PACKAGE)
 @AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Appointment {
     private UUID id;
     private Long slotId;
