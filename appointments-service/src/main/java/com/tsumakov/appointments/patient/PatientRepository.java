@@ -6,7 +6,6 @@ import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.DataClassRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.lang.NonNull;
@@ -17,7 +16,11 @@ import org.springframework.stereotype.Repository;
 public class PatientRepository implements CrudRepository<Patient, UUID> {
 
   private final JdbcTemplate jdbcTemplate;
-  private final RowMapper<Patient> rowMapper = DataClassRowMapper.newInstance(Patient.class);
+  private final RowMapper<Patient> rowMapper = ((rs, rowNum) -> Patient.builder()
+      .id(rs.getObject("id", UUID.class))
+      .firstName(rs.getString("first_name"))
+      .lastName(rs.getString("last_name"))
+      .build());
 
   @Override
   public Optional<Patient> findBy(@NonNull UUID identifier) throws DataAccessException {
