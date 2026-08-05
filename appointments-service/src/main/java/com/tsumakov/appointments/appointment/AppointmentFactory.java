@@ -17,7 +17,7 @@ public class AppointmentFactory {
     private final UuidFactory uuidFactory;
 
     public Appointment create(
-        Long slotId, UUID patientId, String serviceName, UUID practitionerId,
+        Long slotId, UUID patientId, String serviceName, UUID practitionerId, String comment,
         OffsetDateTime startTime, OffsetDateTime endTime, AppointmentStatus status
     ) {
         Objects.requireNonNull(slotId, "Slot id must not be null");
@@ -38,6 +38,7 @@ public class AppointmentFactory {
             .startTime(startTime)
             .endTime(endTime)
             .status(status)
+            .comment(comment)
             .createdAt(now)
             .updatedAt(now)
             .build();
