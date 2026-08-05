@@ -2,6 +2,7 @@ package dev.tsumakov.appointments.appointment;
 
 import dev.tsumakov.appointments.appointment.status.AppointmentStatus;
 import dev.tsumakov.appointments.common.repository.CrudRepository;
+import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import java.time.OffsetDateTime;
 import lombok.RequiredArgsConstructor;
@@ -122,6 +123,28 @@ public final class AppointmentRepository implements CrudRepository<Appointment, 
     String sql = "delete from appointments where id = ?";
     int updatedRows = jdbcTemplate.update(sql, identifier);
     return updatedRows > 0;
+  }
+
+  public List<Appointment> findPatientOverlappingAppointments(@Nonnull UUID patientId,
+      @Nonnull OffsetDateTime startTime, @Nonnull OffsetDateTime endTime, UUID currentAppointmentId) {
+    String sql = """
+        select * from appointments a
+        where a.patient_id = ?
+          and (?::uuid is null or a.id != ?)
+          and a.status not in ('CANCELLED')
+          and a.start_time < ?
+          and a.end_time > ?
+        """;
+
+    return jdbcTemplate.query(
+        sql,
+        rowMapper,
+        patientId,
+        currentAppointmentId,
+        currentAppointmentId,
+        endTime,
+        startTime
+    );
   }
 
   public List<Appointment> filterBy(
