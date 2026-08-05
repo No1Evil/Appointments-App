@@ -15,7 +15,7 @@ public class PractitionerFactory {
         .id(uuidFactory.generate())
         .firstName(firstName)
         .lastName(lastName)
-        .specialty(specialty)
+        .serviceName(specialty)
         .build();
   }
 }
