@@ -5,7 +5,7 @@
 create table if not exists appointments
 (
     id uuid primary key,
-    slot_id uuid not null references slots(id),
+    slot_id bigint not null references slots(id),
     patient_id uuid not null references patients(id),
     practitioner_id uuid not null references practitioners(id),
     service_name varchar(30) not null,
