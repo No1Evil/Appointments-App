@@ -51,6 +51,19 @@ public class SlotService {
   }
 
   @Transactional
+  public void markSlotFree(@Nonnull Long slotId) {
+    Slot slot = getSlot(slotId);
+    slot.markAsFree();
+    slotRepository.update(slot);
+  }
+
+  @Transactional
+  public void markSlotFree(@Nonnull Slot slot) {
+    slot.markAsFree();
+    slotRepository.update(slot);
+  }
+
+  @Transactional
   public void markSlotBooked(@Nonnull Slot slot) {
     slot.markAsBooked();
     slotRepository.update(slot);
