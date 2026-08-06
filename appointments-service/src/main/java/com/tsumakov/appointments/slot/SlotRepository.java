@@ -1,9 +1,7 @@
 package dev.tsumakov.appointments.slot;
 
 import dev.tsumakov.appointments.common.repository.CrudRepository;
-import dev.tsumakov.appointments.service.ServiceCategoryService;
-import dev.tsumakov.appointments.slot.status.SlotStatus;
-import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -71,15 +69,23 @@ public class SlotRepository implements CrudRepository<Slot, Long> {
   }
 
   public List<Slot> listByFilter(SlotParams params) {
-    String sql = "select * from slots";
-    sql += buildFilters(params);
-    return jdbcTemplate.query(sql, rowMapper);
-  }
+    StringBuilder sql = new StringBuilder("select * from slots where 1=1");
+    List<Object> args = new ArrayList<>();
 
-  private String buildFilters(SlotParams params) {
-    //TODO: build filters here
+    if (params.status() != null) {
+      sql.append(" and status = ?");
+      args.add(params.status());
+    }
+    if (params.serviceCode() != null) {
+      sql.append(" and service = ?");
+      args.add(params.serviceCode());
+    }
+    if (params.startTime() != null) {
+      sql.append(" and start_time >= ?");
+      args.add(params.startTime());
+    }
 
-    return "";
+    return jdbcTemplate.query(sql.toString(), rowMapper, args.toArray());
   }
 
 }
