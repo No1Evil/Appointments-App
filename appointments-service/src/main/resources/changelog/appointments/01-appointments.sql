@@ -9,6 +9,7 @@ create table if not exists appointments
     patient_id uuid not null references patients(id),
     practitioner_id uuid not null references practitioners(id),
     service_name varchar(30) not null,
+    status varchar(50) not null,
     start_time timestamptz not null,
     end_time timestamptz not null,
     comment text,
