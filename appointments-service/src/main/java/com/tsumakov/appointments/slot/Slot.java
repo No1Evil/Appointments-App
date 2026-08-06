@@ -54,6 +54,13 @@ public class Slot {
     this.status = SlotStatus.BOOKED;
   }
 
+  public void markAsFree() throws SlotValidationException {
+    if (isBlocked()) {
+      throw new SlotIsTakenException("Can't change status for a blocked slot");
+    }
+    this.status = SlotStatus.FREE;
+  }
+
   public void validateNotExpired() throws SlotValidationException {
     if (isExpired()) {
       throw new SlotValidationException("Slot is expired");
