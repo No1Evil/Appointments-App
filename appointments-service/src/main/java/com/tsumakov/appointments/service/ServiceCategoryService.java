@@ -1,11 +1,11 @@
 package dev.tsumakov.appointments.service;
 
 import dev.tsumakov.appointments.service.exception.ServiceCategoryNotFound;
-import jakarta.inject.Singleton;
 import java.util.List;
 import java.util.Map;
+import org.springframework.stereotype.Service;
 
-@Singleton
+@Service
 public class ServiceCategoryService {
 
   private static final Map<String, ServiceCategory> serviceCategories = Map.of(
