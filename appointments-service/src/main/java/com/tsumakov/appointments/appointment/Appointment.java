@@ -1,9 +1,10 @@
 package dev.tsumakov.appointments.appointment;
 
-import dev.tsumakov.appointments.appointment.exception.AppointmentAlreadyCancelled;
-import dev.tsumakov.appointments.appointment.exception.CannotCancelCompletedAppointment;
+import dev.tsumakov.appointments.appointment.exception.AppointmentAlreadyCancelledException;
+import dev.tsumakov.appointments.appointment.exception.CannotCancelCompletedAppointmentException;
 import dev.tsumakov.appointments.appointment.status.AppointmentStatus;
 import dev.tsumakov.appointments.common.AppointmentObjects;
+import dev.tsumakov.appointments.slot.Slot;
 import jakarta.annotation.Nullable;
 import lombok.*;
 
@@ -52,20 +53,50 @@ public class Appointment {
 
   public void cancel() {
     if (this.isCancelled()) {
-      throw new AppointmentAlreadyCancelled("Appointment is already cancelled");
+      throw new AppointmentAlreadyCancelledException("Appointment is already cancelled");
     } else if (this.isCompleted()) {
-      throw new CannotCancelCompletedAppointment("Cannot cancel a completed appointment");
+      throw new CannotCancelCompletedAppointmentException("Cannot cancel a completed appointment");
     }
     this.status = AppointmentStatus.CANCELLED;
     this.updatedAt = OffsetDateTime.now();
   }
 
-  public void updateDetails(OffsetDateTime newStart, OffsetDateTime newEnd, String newComment) {
+  public void updateTimestamp(OffsetDateTime newStart, OffsetDateTime newEnd) {
     AppointmentObjects.requireValidDates(newStart, newEnd);
-    Objects.requireNonNull(newComment);
     this.startTime = newStart;
     this.endTime = newEnd;
-    this.comment = newComment;
     this.updatedAt = OffsetDateTime.now();
+  }
+
+  public void updateSlot(Long slotId) {
+    Objects.requireNonNull(slotId, "Slot id can not be null");
+    this.slotId = slotId;
+    this.updatedAt = OffsetDateTime.now();
+  }
+
+  public void updateComment(@Nullable String comment) {
+    this.comment = comment;
+    this.updatedAt = OffsetDateTime.now();
+  }
+
+  public void updateService(String serviceName) {
+    AppointmentObjects.requireNotBlank(serviceName, "serviceName");
+    this.serviceName = serviceName;
+    this.updatedAt = OffsetDateTime.now();
+  }
+
+  public void reschedule(Slot slot, @Nullable String comment) {
+    Objects.requireNonNull(slot, "Slot cannot be null");
+
+    if (this.isCancelled()) {
+      throw new AppointmentAlreadyCancelledException("Cannot reschedule cancelled appointment");
+    } else if (this.isCompleted()) {
+      throw new CannotCancelCompletedAppointmentException("Cannot reschedule completed appointment");
+    }
+
+    updateSlot(slot.getId());
+    updateTimestamp(slot.getStartTime(), slot.getEndTime());
+    updateComment(comment);
+    updateService(slot.getService().getName());
   }
 }
