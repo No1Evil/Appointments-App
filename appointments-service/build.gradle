@@ -36,8 +36,12 @@ dependencies {
   runtimeOnly("org.yaml:snakeyaml")
 
   testImplementation("io.micronaut:micronaut-http-client")
-}
+  testImplementation("io.micronaut.test:micronaut-test-spock")
 
+  testImplementation("org.testcontainers:testcontainers")
+  testImplementation("org.testcontainers:postgresql")
+  testImplementation("org.testcontainers:spock")
+}
 
 application {
   mainClass.set("dev.tsumakov.appointments.Application")
