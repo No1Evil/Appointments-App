@@ -1,7 +1,7 @@
 --liquibase formatted sql
 --changeset f.tsumakov@gmail.com:01-appointments.sql runOnChange:true
 
---changeset create appointments table
+-- creates the appointments table
 create table if not exists appointments
 (
     id uuid primary key,

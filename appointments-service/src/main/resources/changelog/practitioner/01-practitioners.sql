@@ -1,7 +1,7 @@
 --liquibase formatted sql
 --changeset f.tsumakov@gmail.com:01-practitioners.sql runOnChange:true
 
---changeset create table practitioners
+-- creates the practitioners table
 create table if not exists practitioners
 (
     id uuid primary key,
