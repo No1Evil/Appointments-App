@@ -1,11 +1,12 @@
 package dev.tsumakov.appointments.slot;
 
+import dev.tsumakov.appointments.slot.status.SlotStatus;
 import java.time.OffsetDateTime;
-import lombok.Data;
 
-@Data
-public class SlotParams {
-  private String status;
-  private String service;
-  private OffsetDateTime time;
+public record SlotParams(
+    SlotStatus status,
+    String serviceCode,
+    OffsetDateTime startTime
+) {
+
 }
