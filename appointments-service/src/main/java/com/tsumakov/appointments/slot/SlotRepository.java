@@ -18,15 +18,7 @@ import org.springframework.stereotype.Repository;
 public class SlotRepository implements CrudRepository<Slot, Long> {
 
   private final JdbcTemplate jdbcTemplate;
-  private final ServiceCategoryService serviceCategoryService;
-
-  private final RowMapper<Slot> rowMapper = ((rs, rowNum) -> Slot.builder()
-      .id(rs.getLong("id"))
-      .status(SlotStatus.valueOf(rs.getString("status")))
-      .service(serviceCategoryService.getServiceByCode(rs.getString("service")))
-      .startTime(rs.getObject("start_time", OffsetDateTime.class))
-      .endTime(rs.getObject("end_time", OffsetDateTime.class))
-      .build());
+  private final RowMapper<Slot> rowMapper;
 
   @Override
   public Optional<Slot> findBy(@NonNull Long identifier) throws DataAccessException {
