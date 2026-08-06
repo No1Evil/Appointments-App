@@ -24,6 +24,9 @@ public class Appointment {
   private final UUID practitionerId;
 
   private final String serviceName; // name of the service from the slot selected
+  private String practitionerName; // Read only
+  private String patientName; // Read only
+
   private OffsetDateTime startTime;
   private OffsetDateTime endTime;
   private String comment;
