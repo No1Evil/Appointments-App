@@ -4,6 +4,7 @@ import dev.tsumakov.appointments.appointment.exception.AppointmentAlreadyCancell
 import dev.tsumakov.appointments.appointment.exception.CannotCancelCompletedAppointment;
 import dev.tsumakov.appointments.appointment.status.AppointmentStatus;
 import dev.tsumakov.appointments.common.AppointmentObjects;
+import jakarta.annotation.Nullable;
 import lombok.*;
 
 import java.time.OffsetDateTime;
@@ -29,6 +30,7 @@ public class Appointment {
   private String serviceName; // name of the service from the slot selected
   private OffsetDateTime startTime;
   private OffsetDateTime endTime;
+  @Nullable
   private String comment;
 
   private AppointmentStatus status;
