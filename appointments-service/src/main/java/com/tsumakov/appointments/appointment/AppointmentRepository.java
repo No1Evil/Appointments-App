@@ -3,7 +3,6 @@ package dev.tsumakov.appointments.appointment;
 import dev.tsumakov.appointments.appointment.status.AppointmentStatus;
 import dev.tsumakov.appointments.common.repository.CrudRepository;
 import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import java.time.OffsetDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
@@ -28,6 +27,8 @@ public final class AppointmentRepository implements CrudRepository<Appointment, 
       .patientId(rs.getObject("patient_id", UUID.class))
       .practitionerId(rs.getObject("practitioner_id", UUID.class))
       .serviceName(rs.getString("service_name"))
+      .patientName(rs.getString("patient_name"))
+      .practitionerName(rs.getString("practitioner_name"))
       .startTime(rs.getObject("start_time", OffsetDateTime.class))
       .endTime(rs.getObject("end_time", OffsetDateTime.class))
       .comment(rs.getString("comment"))
@@ -38,14 +39,29 @@ public final class AppointmentRepository implements CrudRepository<Appointment, 
 
   @Override
   public Optional<Appointment> findBy(@NonNull UUID identifier) throws DataAccessException {
-    String sql = "select * from appointments where id = ?";
+    String sql = """
+        select a.*,
+          p.first_name || ' ' || p.last_name as practitioner_name,
+          pt.first_name || ' ' || pt.last_name as patient_name
+        from appointments a
+        left join practitioners p on p.id = a.practitioner_id
+        left join patients pt on pt.id = a.patient_id
+        where a.id = ?
+        """;
     var query = jdbcTemplate.query(sql, rowMapper, identifier);
     return query.stream().findFirst();
   }
 
   @Override
   public List<Appointment> findAll() throws DataAccessException {
-    String sql = "select * from appointments";
+    String sql = """
+        select a.*,
+          p.first_name || ' ' || p.last_name as practitioner_name,
+          pt.first_name || ' ' || pt.last_name as patient_name
+        from appointments a
+        left join practitioners p on p.id = a.practitioner_id
+        left join patients pt on pt.id = a.patient_id
+        """;
     return jdbcTemplate.query(sql, rowMapper);
   }
 
@@ -128,7 +144,12 @@ public final class AppointmentRepository implements CrudRepository<Appointment, 
   public List<Appointment> findPatientOverlappingAppointments(@Nonnull UUID patientId,
       @Nonnull OffsetDateTime startTime, @Nonnull OffsetDateTime endTime, UUID currentAppointmentId) {
     String sql = """
-        select * from appointments a
+        select a.*,
+          p.first_name || ' ' || p.last_name as practitioner_name,
+          pt.first_name || ' ' || pt.last_name as patient_name
+        from appointments a
+        left join practitioners p on p.id = a.practitioner_id
+        left join patients pt on pt.id = a.patient_id
         where a.patient_id = ?
           and (?::uuid is null or a.id != ?)
           and a.status not in ('CANCELLED')
@@ -147,32 +168,35 @@ public final class AppointmentRepository implements CrudRepository<Appointment, 
     );
   }
 
-  public List<Appointment> filterBy(
-      @Nullable UUID practitionerId,
-      @Nullable AppointmentStatus status,
-      @Nullable String serviceName,
-      @Nullable UUID patientId
-  ) {
-    StringBuilder sql = new StringBuilder("SELECT * FROM appointments WHERE 1=1");
-    List<Object> params = new ArrayList<>();
+  public List<Appointment> filterBy(AppointmentsParams params) {
+    StringBuilder sql = new StringBuilder("""
+        select a.*,
+          p.first_name || ' ' || p.last_name as practitioner_name,
+          pt.first_name || ' ' || pt.last_name as patient_name
+        from appointments a
+        left join practitioners p on p.id = a.practitioner_id
+        left join patients pt on pt.id = a.patient_id
+        where 1=1
+        """);
+    List<Object> args = new ArrayList<>();
 
-    if (practitionerId != null) {
-      sql.append(" AND practitioner_id = ?");
-      params.add(practitionerId);
+    if (params.practitionerId() != null) {
+      sql.append(" and a.practitioner_id = ?");
+      args.add(params.practitionerId());
     }
-    if (status != null) {
-      sql.append(" AND status = ?");
-      params.add(status.name());
+    if (params.status() != null) {
+      sql.append(" and a.status = ?");
+      args.add(params.status().name());
     }
-    if (serviceName != null && !serviceName.isBlank()) {
-      sql.append(" AND service_name = ?");
-      params.add(serviceName);
+    if (params.serviceName() != null && !params.serviceName().isBlank()) {
+      sql.append(" and a.service_name = ?");
+      args.add(params.serviceName());
     }
-    if (patientId != null) {
-      sql.append(" AND patient_id = ?");
-      params.add(patientId);
+    if (params.patientId() != null) {
+      sql.append(" and a.patient_id = ?");
+      args.add(params.patientId());
     }
 
-    return jdbcTemplate.query(sql.toString(), rowMapper, params.toArray());
+    return jdbcTemplate.query(sql.toString(), rowMapper, args.toArray());
   }
 }
