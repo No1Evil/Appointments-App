@@ -1,4 +1,4 @@
-package dev.tsumakov.appointments.slot.config;
+package dev.tsumakov.appointments.slot.web.config;
 
 import dev.tsumakov.appointments.common.web.ErrorResponse;
 import dev.tsumakov.appointments.slot.exception.SlotValidationException;
