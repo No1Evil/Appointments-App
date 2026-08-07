@@ -11,6 +11,7 @@ import dev.tsumakov.appointments.appointment.web.request.UpdateAppointmentCommen
 import dev.tsumakov.appointments.slot.Slot;
 import dev.tsumakov.appointments.slot.SlotService;
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,10 @@ public class AppointmentService {
             "Appointment with id " + appointmentId + "not found"));
   }
 
-  public List<Appointment> listFiltered(FilterAppointmentsRequest request) {
+  public List<Appointment> listFiltered(@Nullable FilterAppointmentsRequest request) {
+    if (request == null) {
+      return repository.findAll();
+    }
     var dto = mapper.toDomain(request);
     return repository.filterBy(dto);
   }
