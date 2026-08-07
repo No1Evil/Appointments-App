@@ -8,6 +8,8 @@ import dev.tsumakov.appointments.appointment.web.request.FilterAppointmentsReque
 import dev.tsumakov.appointments.appointment.web.request.SubmitAppointmentRequest;
 import dev.tsumakov.appointments.appointment.web.request.RescheduleAppointmentRequest;
 import dev.tsumakov.appointments.appointment.web.request.UpdateAppointmentCommentRequest;
+import dev.tsumakov.appointments.patient.PatientService;
+import dev.tsumakov.appointments.practitioner.PractitionerService;
 import dev.tsumakov.appointments.slot.Slot;
 import dev.tsumakov.appointments.slot.SlotService;
 import jakarta.annotation.Nonnull;
@@ -27,6 +29,8 @@ public class AppointmentService {
   private final AppointmentMapper mapper;
 
   private final SlotService slotService;
+  private final PatientService patientService;
+  private final PractitionerService practitionerService;
 
   public Appointment getAppointment(UUID appointmentId) throws AppointmentNotFoundException {
     return repository.findBy(appointmentId).orElseThrow(
@@ -77,6 +81,10 @@ public class AppointmentService {
 
   @Transactional
   public Appointment submit(SubmitAppointmentRequest request) {
+    // Validate if users are in the system.
+    practitionerService.findById(request.practitionerId());
+    patientService.findById(request.patientId());
+
     Slot slot = slotService.getValidSlotForAppointment(request.slotId());
 
     Appointment appointment = createNewAppointment(request, slot);
