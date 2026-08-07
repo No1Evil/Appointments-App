@@ -43,7 +43,7 @@ public class PractitionerRepository implements CrudRepository<Practitioner, UUID
         id,
         first_name,
         last_name,
-        specialty
+        service_name
         ) values (?, ?, ?, ?)
         """;
     jdbcTemplate.update(sql, entity.getId(), entity.getFirstName(), entity.getLastName(),
@@ -57,7 +57,7 @@ public class PractitionerRepository implements CrudRepository<Practitioner, UUID
         update practitioners set
           first_name = ?,
           last_name = ?,
-          specialty = ?
+          service_name = ?
         where id = ?
         """;
     int rowsUpdated = jdbcTemplate.update(sql, entity.getFirstName(), entity.getLastName(),
