@@ -51,7 +51,7 @@ public class Slot {
 
   public void markAsFree() throws SlotValidationException {
     if (isBlocked()) {
-      throw new SlotIsTakenException("Can't change status for a blocked slot");
+      throw new SlotValidationException("Can't change status for a blocked slot");
     }
     this.status = SlotStatus.FREE;
   }
