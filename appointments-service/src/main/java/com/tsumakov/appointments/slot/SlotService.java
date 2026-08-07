@@ -20,7 +20,8 @@ public class SlotService {
   }
 
   public Slot getValidSlotForAppointment(@Nonnull Long id) {
-    Slot slot = getSlot(id);
+    Slot slot = slotRepository.findByWithLock(id)
+            .orElseThrow(() -> new SlotNotFoundException("Slot with id " + id + " not found"));
 
     slot.validateNotExpired();
 
