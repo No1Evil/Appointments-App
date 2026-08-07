@@ -4,7 +4,6 @@ import dev.tsumakov.appointments.slot.exception.SlotIsTakenException;
 import dev.tsumakov.appointments.slot.exception.SlotNotFoundException;
 import jakarta.annotation.Nonnull;
 import java.util.List;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +29,11 @@ public class SlotService {
     }
 
     return slot;
+  }
+
+  @Transactional
+  public Long create(Slot slot) {
+    return slotRepository.create(slot);
   }
 
   public List<Slot> getSlots(SlotParams params) {
