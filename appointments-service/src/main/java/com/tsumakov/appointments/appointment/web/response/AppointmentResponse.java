@@ -11,6 +11,7 @@ import java.util.UUID;
 @Serdeable
 public record AppointmentResponse(
     @Nonnull UUID id,
+    @Nonnull Long slotId,
     @Nonnull String serviceName,
     @Nonnull String patientName,
     @Nonnull String practitionerName,
