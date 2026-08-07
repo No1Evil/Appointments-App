@@ -17,7 +17,6 @@ import io.micronaut.http.annotation.Patch;
 import io.micronaut.http.annotation.PathVariable;
 import io.micronaut.http.annotation.Post;
 import io.micronaut.http.annotation.Put;
-import io.micronaut.http.annotation.QueryValue;
 import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -31,13 +30,8 @@ public class AppointmentController {
   private final AppointmentService service;
   private final AppointmentMapper mapper;
 
-  @Get
-  public HttpResponse<List<AppointmentResponse>> get(
-      @QueryValue @Nullable UUID practitionerId,
-      @QueryValue @Nullable AppointmentStatus status,
-      @QueryValue @Nullable String serviceName,
-      @QueryValue @Nullable UUID patientId) {
-    var request = new FilterAppointmentsRequest(practitionerId, status, serviceName, patientId);
+  @Get("{?request*}")
+  public HttpResponse<List<AppointmentResponse>> get(@Nullable FilterAppointmentsRequest request) {
     var result = service.listFiltered(request).stream().map(mapper::toResponse).toList();
     return HttpResponse.ok(result);
   }
