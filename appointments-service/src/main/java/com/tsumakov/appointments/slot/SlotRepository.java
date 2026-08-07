@@ -3,11 +3,13 @@ package dev.tsumakov.appointments.slot;
 import dev.tsumakov.appointments.common.repository.CrudRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 
@@ -32,7 +34,7 @@ public class SlotRepository implements CrudRepository<Slot, Long> {
   }
 
   @Override
-  public Long create(@NonNull Slot entity) throws DataAccessException {
+  public Long create(@NonNull Slot entity) throws DataAccessException, NullPointerException {
     String sql = """
         insert into slots (
           status,
@@ -41,9 +43,17 @@ public class SlotRepository implements CrudRepository<Slot, Long> {
           end_time
         ) values (?, ?, ?, ?)
         """;
-    int rowsUpdated = jdbcTemplate.update(sql, entity.getStatus().toString(),
-        entity.getService().getCode(), entity.getStartTime(), entity.getEndTime());
-    return 0L;
+    GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+    jdbcTemplate.update(sql, keyHolder,
+        entity.getStatus().toString(), entity.getService().getCode(),
+        entity.getStartTime(), entity.getEndTime());
+
+    // Pwease clean up needed
+    Number key = keyHolder.getKey();
+    Objects.requireNonNull(key);
+    Long identifier = key.longValue();
+    Objects.requireNonNull(identifier);
+    return identifier;
   }
 
   @Override
@@ -74,7 +84,7 @@ public class SlotRepository implements CrudRepository<Slot, Long> {
 
     if (params.status() != null) {
       sql.append(" and status = ?");
-      args.add(params.status());
+      args.add(params.status().toString());
     }
     if (params.serviceCode() != null) {
       sql.append(" and service = ?");
