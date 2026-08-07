@@ -52,16 +52,13 @@ public class Appointment {
   }
 
   public void cancel() {
-    if (this.isCancelled()) {
-      throw new AppointmentAlreadyCancelledException("Appointment is already cancelled");
-    } else if (this.isCompleted()) {
-      throw new CannotCancelCompletedAppointmentException("Cannot cancel a completed appointment");
-    }
+    checkIfUpdatingApplicable();
     this.status = AppointmentStatus.CANCELLED;
     this.updatedAt = OffsetDateTime.now();
   }
 
   public void updateTimestamp(OffsetDateTime newStart, OffsetDateTime newEnd) {
+    checkIfUpdatingApplicable();
     AppointmentObjects.requireValidDates(newStart, newEnd);
     this.startTime = newStart;
     this.endTime = newEnd;
@@ -69,17 +66,20 @@ public class Appointment {
   }
 
   public void updateSlot(Long slotId) {
+    checkIfUpdatingApplicable();
     Objects.requireNonNull(slotId, "Slot id can not be null");
     this.slotId = slotId;
     this.updatedAt = OffsetDateTime.now();
   }
 
   public void updateComment(@Nullable String comment) {
+    checkIfUpdatingApplicable();
     this.comment = comment;
     this.updatedAt = OffsetDateTime.now();
   }
 
   public void updateService(String serviceName) {
+    checkIfUpdatingApplicable();
     AppointmentObjects.requireNotBlank(serviceName, "serviceName");
     this.serviceName = serviceName;
     this.updatedAt = OffsetDateTime.now();
@@ -87,16 +87,17 @@ public class Appointment {
 
   public void reschedule(Slot slot, @Nullable String comment) {
     Objects.requireNonNull(slot, "Slot cannot be null");
-
-    if (this.isCancelled()) {
-      throw new AppointmentAlreadyCancelledException("Cannot reschedule cancelled appointment");
-    } else if (this.isCompleted()) {
-      throw new CannotCancelCompletedAppointmentException("Cannot reschedule completed appointment");
-    }
-
     updateSlot(slot.getId());
     updateTimestamp(slot.getStartTime(), slot.getEndTime());
     updateComment(comment);
     updateService(slot.getService().getName());
+  }
+
+  private void checkIfUpdatingApplicable() {
+    if (this.isCancelled()) {
+      throw new AppointmentAlreadyCancelledException("Cannot update cancelled appointment");
+    } else if (this.isCompleted()) {
+      throw new CannotCancelCompletedAppointmentException("Cannot update completed appointment");
+    }
   }
 }
