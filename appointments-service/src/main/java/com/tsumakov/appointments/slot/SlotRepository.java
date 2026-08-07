@@ -1,9 +1,9 @@
 package dev.tsumakov.appointments.slot;
 
 import dev.tsumakov.appointments.common.repository.CrudRepository;
+import jakarta.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
@@ -23,6 +23,12 @@ public class SlotRepository implements CrudRepository<Slot, Long> {
   @Override
   public Optional<Slot> findBy(@NonNull Long identifier) throws DataAccessException {
     String sql = "select * from slots where id = ?";
+    var query = jdbcTemplate.query(sql, rowMapper, identifier);
+    return query.stream().findFirst();
+  }
+
+  public Optional<Slot> findByWithLock(@Nonnull Long identifier) throws DataAccessException {
+    String sql = "select * from slots where id = ? for update";
     var query = jdbcTemplate.query(sql, rowMapper, identifier);
     return query.stream().findFirst();
   }
