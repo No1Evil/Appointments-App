@@ -21,7 +21,7 @@ public class SlotRowMapper implements RowMapper<Slot> {
   public Slot mapRow(ResultSet rs, int rowNum) throws SQLException {
     return Slot.builder()
         .id(rs.getLong("id"))
-        .status(SlotStatus.valueOf(rs.getString("status")))
+        .status(SlotStatus.valueOf(rs.getString("status").trim().toUpperCase()))
         .service(service.getServiceByCode(rs.getString("service")))
         .startTime(rs.getObject("start_time", OffsetDateTime.class))
         .endTime(rs.getObject("end_time", OffsetDateTime.class))
