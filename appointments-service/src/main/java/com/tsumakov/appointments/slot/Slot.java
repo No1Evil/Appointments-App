@@ -44,11 +44,6 @@ public class Slot {
     return this.status == SlotStatus.BLOCKED;
   }
 
-  public void markAsScheduled() throws SlotIsTakenException {
-    checkCanBeChanged();
-    this.status = SlotStatus.SCHEDULED;
-  }
-
   public void markAsBooked() throws SlotIsTakenException {
     checkCanBeChanged();
     this.status = SlotStatus.BOOKED;

@@ -41,13 +41,6 @@ public class SlotService {
   }
 
   @Transactional
-  public void markSlotScheduled(@Nonnull Long slotId) {
-    Slot slot = getSlot(slotId);
-    slot.markAsScheduled();
-    slotRepository.update(slot);
-  }
-
-  @Transactional
   public void markSlotBooked(@Nonnull Long slotId) {
     Slot slot = getSlot(slotId);
     slot.markAsBooked();
