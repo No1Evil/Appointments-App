@@ -5,7 +5,7 @@ import java.util.UUID;
 public record PractitionerResponse(
     UUID id,
     String firstName,
-    String secondName,
+    String lastName,
     String serviceName
 ) {
 
