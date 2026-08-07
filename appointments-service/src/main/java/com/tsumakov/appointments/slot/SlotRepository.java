@@ -48,12 +48,7 @@ public class SlotRepository implements CrudRepository<Slot, Long> {
         entity.getStatus().toString(), entity.getService().getCode(),
         entity.getStartTime(), entity.getEndTime());
 
-    // Pwease clean up needed
-    Number key = keyHolder.getKey();
-    Objects.requireNonNull(key);
-    Long identifier = key.longValue();
-    Objects.requireNonNull(identifier);
-    return identifier;
+    return keyHolder.getKey() != null ? keyHolder.getKey().longValue() : null;
   }
 
   @Override
