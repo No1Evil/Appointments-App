@@ -2,6 +2,10 @@
 *.class
 */build/**
 
+# Frontend
+*/.angular/
+*/src/app/api
+
 # Log file
 *.log
 
