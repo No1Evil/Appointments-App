@@ -3,6 +3,7 @@ package dev.tsumakov.appointments.slot;
 import dev.tsumakov.appointments.slot.exception.SlotIsTakenException;
 import dev.tsumakov.appointments.slot.exception.SlotNotFoundException;
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -37,7 +38,10 @@ public class SlotService {
     return slotRepository.create(slot);
   }
 
-  public List<Slot> getSlots(SlotParams params) {
+  public List<Slot> getByFilter(@Nullable SlotParams params) {
+    if (params == null) {
+      return slotRepository.findAll();
+    }
     return slotRepository.listByFilter(params);
   }
 
