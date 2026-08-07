@@ -28,6 +28,7 @@ dependencies {
   implementation("io.micronaut.sql:micronaut-jdbc-hikari")
   implementation("org.mapstruct:mapstruct:1.6.3")
   implementation("io.micronaut.validation:micronaut-validation")
+  implementation("io.github.robsonkades:uuidv7:1.0.1")
 
   compileOnly("io.micronaut:micronaut-http-client")
   compileOnly("org.projectlombok:lombok")
