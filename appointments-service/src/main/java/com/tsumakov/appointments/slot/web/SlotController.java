@@ -1,5 +1,7 @@
-package dev.tsumakov.appointments.slot;
+package dev.tsumakov.appointments.slot.web;
 
+import dev.tsumakov.appointments.slot.SlotParams;
+import dev.tsumakov.appointments.slot.SlotService;
 import dev.tsumakov.appointments.slot.mapper.SlotMapper;
 import dev.tsumakov.appointments.slot.web.response.SlotResponse;
 import io.micronaut.http.HttpResponse;
