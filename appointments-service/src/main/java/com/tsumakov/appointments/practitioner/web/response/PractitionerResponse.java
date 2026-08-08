@@ -1,7 +1,9 @@
 package dev.tsumakov.appointments.practitioner.web.response;
 
+import io.micronaut.serde.annotation.Serdeable;
 import java.util.UUID;
 
+@Serdeable
 public record PractitionerResponse(
     UUID id,
     String firstName,
