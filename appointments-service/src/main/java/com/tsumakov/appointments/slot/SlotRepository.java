@@ -85,7 +85,7 @@ public class SlotRepository implements CrudRepository<Slot, Long> {
 
     if (params.status() != null) {
       sql.append(" and status = ?");
-      args.add(params.status().toString());
+      args.add(params.status().toString().trim().toLowerCase());
     }
     if (params.serviceCode() != null) {
       sql.append(" and service = ?");
