@@ -42,6 +42,8 @@ public class AppointmentController {
   @Get("{?request*}")
   @Operation(operationId = "getByFilter", summary = "gets appointment by filter")
   public HttpResponse<List<AppointmentResponse>> getByFilter(@Nullable FilterAppointmentsRequest request) {
+  public HttpResponse<List<AppointmentResponse>> getByFilter(
+      @Valid @Nullable @RequestBean FilterAppointmentsRequest request) {
     var result = service.listFiltered(request).stream().map(mapper::toResponse).toList();
     return HttpResponse.ok(result);
   }
