@@ -22,14 +22,14 @@ public class PractitionerController {
   private final PractitionerMapper mapper;
 
   @Get("/{id}")
-  @Operation(operationId = "getById", summary = "get practitioner by id")
+  @Operation(operationId = "getPractitionerById", summary = "get practitioner by id")
   public HttpResponse<PractitionerResponse> getById(@PathVariable UUID id) {
     var result = service.findById(id);
     return HttpResponse.ok(mapper.toResponse(result));
   }
 
   @Get
-  @Operation(operationId = "getAll", summary = "get all practitioners")
+  @Operation(operationId = "getAllPractitioners", summary = "get all practitioners")
   public HttpResponse<List<PractitionerResponse>> getAll() {
     var result = service.listAll();
     var response = result.stream().map(mapper::toResponse).toList();

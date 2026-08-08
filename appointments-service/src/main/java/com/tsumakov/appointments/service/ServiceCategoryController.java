@@ -17,13 +17,13 @@ public class ServiceCategoryController {
   private final ServiceCategoryService serviceCategoryService;
 
   @Get
-  @Operation(operationId = "getAll", summary = "get services")
+  @Operation(operationId = "getAllServices", summary = "get services")
   public HttpResponse<List<ServiceCategory>> getAll() {
     return HttpResponse.ok(serviceCategoryService.getServices());
   }
 
   @Get("/{code}")
-  @Operation(operationId = "getByCode", summary = "get service by specific code")
+  @Operation(operationId = "getServiceByCode", summary = "get service by specific code")
   public HttpResponse<ServiceCategory> getByCode(@PathVariable String code) {
     return HttpResponse.ok(serviceCategoryService.getServiceByCode(code));
   }

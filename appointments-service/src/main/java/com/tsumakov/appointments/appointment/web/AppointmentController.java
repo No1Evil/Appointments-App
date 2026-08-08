@@ -16,6 +16,7 @@ import io.micronaut.http.annotation.Patch;
 import io.micronaut.http.annotation.PathVariable;
 import io.micronaut.http.annotation.Post;
 import io.micronaut.http.annotation.Put;
+import io.micronaut.http.annotation.RequestBean;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Nullable;
@@ -33,15 +34,14 @@ public class AppointmentController {
   private final AppointmentMapper mapper;
 
   @Get("/{id}")
-  @Operation(operationId = "getById", summary = "gets appointment")
+  @Operation(operationId = "getAppointmentById", summary = "gets appointment")
   public HttpResponse<AppointmentResponse> getById(@PathVariable UUID id) {
     var result = service.getAppointment(id);
     return HttpResponse.ok(mapper.toResponse(result));
   }
 
   @Get("{?request*}")
-  @Operation(operationId = "getByFilter", summary = "gets appointment by filter")
-  public HttpResponse<List<AppointmentResponse>> getByFilter(@Nullable FilterAppointmentsRequest request) {
+  @Operation(operationId = "getAppointmentsByFilter", summary = "gets appointment by filter")
   public HttpResponse<List<AppointmentResponse>> getByFilter(
       @Valid @Nullable @RequestBean FilterAppointmentsRequest request) {
     var result = service.listFiltered(request).stream().map(mapper::toResponse).toList();
@@ -58,7 +58,7 @@ public class AppointmentController {
   }
 
   @Put
-  @Operation(operationId = "reschedule", summary = "reschedules appointment")
+  @Operation(operationId = "rescheduleAppointment", summary = "reschedules appointment")
   public HttpResponse<AppointmentResponse> reschedule(
       @Valid @Body RescheduleAppointmentRequest request
   ) {
@@ -67,7 +67,7 @@ public class AppointmentController {
   }
 
   @Patch()
-  @Operation(operationId = "updateComment", summary = "updates comment on an appointment")
+  @Operation(operationId = "updateAppointmentComment", summary = "updates comment on an appointment")
   public HttpResponse<AppointmentResponse> updateComment(
       @Body @Valid UpdateAppointmentCommentRequest request
   ) {
@@ -76,7 +76,7 @@ public class AppointmentController {
   }
 
   @Delete("/{id}")
-  @Operation(operationId = "cancel", summary = "cancels the appointment")
+  @Operation(operationId = "cancelAppointment", summary = "cancels the appointment")
   public HttpResponse<Void> cancel(@PathVariable UUID id) {
     service.cancel(id);
     return HttpResponse.noContent();
