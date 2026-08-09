@@ -66,6 +66,13 @@ public class AppointmentController {
     return HttpResponse.ok(mapper.toResponse(result));
   }
 
+  @Post("/{id}/complete")
+  @Operation(operationId = "markAppointmentCompleted", summary = "mark appointment as completed")
+  public HttpResponse<AppointmentResponse> markCompleted(@PathVariable UUID id) {
+    var result = service.markCompleted(id);
+    return HttpResponse.ok(mapper.toResponse(result));
+  }
+
   @Patch()
   @Operation(operationId = "updateAppointmentComment", summary = "update comment on an appointment")
   public HttpResponse<AppointmentResponse> updateComment(

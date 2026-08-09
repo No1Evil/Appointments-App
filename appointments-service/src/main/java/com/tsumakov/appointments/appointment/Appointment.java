@@ -1,6 +1,7 @@
 package dev.tsumakov.appointments.appointment;
 
 import dev.tsumakov.appointments.appointment.exception.AppointmentAlreadyCancelledException;
+import dev.tsumakov.appointments.appointment.exception.AppointmentValidationException;
 import dev.tsumakov.appointments.appointment.exception.CannotCancelCompletedAppointmentException;
 import dev.tsumakov.appointments.appointment.status.AppointmentStatus;
 import dev.tsumakov.appointments.common.AppointmentObjects;
@@ -82,6 +83,15 @@ public final class Appointment {
     checkIfUpdatingApplicable();
     AppointmentObjects.requireNotBlank(serviceName, "serviceName");
     this.serviceName = serviceName;
+    this.updatedAt = OffsetDateTime.now();
+  }
+
+  public void complete() {
+    checkIfUpdatingApplicable();
+    if (OffsetDateTime.now().isBefore(startTime)) {
+      throw new AppointmentValidationException("Cannot complete appointment that is before now");
+    }
+    this.status = AppointmentStatus.COMPLETED;
     this.updatedAt = OffsetDateTime.now();
   }
 

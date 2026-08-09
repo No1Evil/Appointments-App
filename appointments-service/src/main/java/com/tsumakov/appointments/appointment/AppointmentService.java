@@ -103,6 +103,15 @@ public class AppointmentService {
     return appointment;
   }
 
+  @Transactional
+  public Appointment markCompleted(@Nonnull UUID appointmentId) {
+    Appointment appointment = getAppointment(appointmentId);
+
+    appointment.complete();
+    repository.update(appointment);
+    return appointment;
+  }
+
   private Appointment createNewAppointment(SubmitAppointmentRequest request, Slot slot) {
     return factory.create(
         slot.getId(),
