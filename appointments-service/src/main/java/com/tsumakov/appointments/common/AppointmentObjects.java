@@ -6,7 +6,7 @@ import dev.tsumakov.appointments.common.exception.StringValidationException;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
-public class AppointmentObjects {
+public final class AppointmentObjects {
 
     private AppointmentObjects() {
         throw new AssertionError("Nope.");

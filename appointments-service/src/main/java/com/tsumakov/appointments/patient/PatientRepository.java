@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class PatientRepository implements CrudRepository<Patient, UUID> {
+public final class PatientRepository implements CrudRepository<Patient, UUID> {
 
   private final JdbcTemplate jdbcTemplate;
   private final RowMapper<Patient> rowMapper = ((rs, rowNum) -> Patient.builder()

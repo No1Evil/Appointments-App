@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 
 @Singleton
 @RequiredArgsConstructor
-public class SlotFactory {
+public final class SlotFactory {
 
   public Slot create(SlotStatus status, ServiceCategory service,
       OffsetDateTime startTime, OffsetDateTime endTime) {

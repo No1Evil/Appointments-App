@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class SlotRepository implements CrudRepository<Slot, Long> {
+public final class SlotRepository implements CrudRepository<Slot, Long> {
 
   private final JdbcTemplate jdbcTemplate;
   private final RowMapper<Slot> rowMapper;

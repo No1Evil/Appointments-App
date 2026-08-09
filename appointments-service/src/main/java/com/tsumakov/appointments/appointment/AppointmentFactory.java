@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class AppointmentFactory {
+public final class AppointmentFactory {
 
     private final UuidFactory uuidFactory;
 

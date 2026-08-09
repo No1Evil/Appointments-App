@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class PractitionerRepository implements CrudRepository<Practitioner, UUID> {
+public final class PractitionerRepository implements CrudRepository<Practitioner, UUID> {
 
   private final JdbcTemplate jdbcTemplate;
   private final RowMapper<Practitioner> rowMapper;

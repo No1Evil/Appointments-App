@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 @Singleton
 @RequiredArgsConstructor
-public class PractitionerFactory {
+public final class PractitionerFactory {
 
   private final UuidFactory uuidFactory;
 

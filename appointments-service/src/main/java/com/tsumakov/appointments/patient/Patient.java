@@ -14,7 +14,7 @@ import lombok.ToString;
 @Builder(access = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Patient {
+public final class Patient {
 
   @EqualsAndHashCode.Include
   private UUID id;

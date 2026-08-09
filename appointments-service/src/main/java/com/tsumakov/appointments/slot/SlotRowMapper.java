@@ -12,7 +12,7 @@ import org.springframework.lang.Nullable;
 
 @Singleton
 @RequiredArgsConstructor
-public class SlotRowMapper implements RowMapper<Slot> {
+public final class SlotRowMapper implements RowMapper<Slot> {
 
   private final ServiceCategoryService service;
 

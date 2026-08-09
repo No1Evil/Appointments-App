@@ -17,7 +17,7 @@ import java.util.UUID;
 @Builder(access = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Appointment {
+public final class Appointment {
 
   @EqualsAndHashCode.Include
   private UUID id;

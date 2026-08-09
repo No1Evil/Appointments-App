@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @Singleton
 @RequiredArgsConstructor
-public class PatientFactory {
+public final class PatientFactory {
 
   private final UuidFactory uuidFactory;
 

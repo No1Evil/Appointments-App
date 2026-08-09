@@ -9,7 +9,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class ServiceCategory {
+public final class ServiceCategory {
   @EqualsAndHashCode.Include
   private String code;
   private String name;
