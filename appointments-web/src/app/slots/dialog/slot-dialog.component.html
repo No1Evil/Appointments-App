@@ -1,0 +1,50 @@
+<h2 mat-dialog-title class="dialog-title">
+  <mat-icon color="primary">event_available</mat-icon>
+  <span>Book appointment</span>
+</h2>
+
+<mat-dialog-content>
+  <div class="slot-summary">
+    <span class="slot-summary-service">{{ slot.service.name }}</span>
+    <span class="slot-summary-time">
+      {{ slot.startTime | date: 'fullDate' }} · {{ slot.startTime | date: 'shortTime' }} – {{ slot.endTime | date: 'shortTime' }}
+    </span>
+  </div>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Patient</mat-label>
+    <mat-select [(ngModel)]="patientId" required>
+      <mat-option *ngFor="let patient of patients" [value]="patient.id">
+        {{ patient.firstName }} {{ patient.lastName }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Practitioner</mat-label>
+    <mat-select [(ngModel)]="practitionerId" required>
+      <mat-option *ngFor="let practitioner of practitioners" [value]="practitioner.id">
+        {{ practitioner.firstName }} {{ practitioner.lastName }} ({{ practitioner.service.name }})
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Comment (optional)</mat-label>
+    <textarea matInput [(ngModel)]="comment" rows="3"></textarea>
+  </mat-form-field>
+
+  <div class="error" *ngIf="error">
+    <mat-icon>error_outline</mat-icon>
+    <span>{{ error }}</span>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button [disabled]="submitting" (click)="dialogRef.close()">Cancel</button>
+  <button mat-raised-button color="primary"
+          [disabled]="submitting || !patientId || !practitionerId"
+          (click)="submit()">
+    {{ submitting ? 'Booking...' : 'Book appointment' }}
+  </button>
+</mat-dialog-actions>
