@@ -32,7 +32,7 @@ public class PractitionerController {
     return HttpResponse.ok(mapper.toResponse(result));
   }
 
-  @Get
+  @Get("{?request*}")
   @Operation(operationId = "getPractitioners", summary = "get all practitioners")
   public HttpResponse<List<PractitionerResponse>> get(
       @Valid @Nullable @RequestBean FilterPractitionersRequest request
