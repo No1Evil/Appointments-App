@@ -3,8 +3,9 @@ package dev.tsumakov.appointments.patient;
 import dev.tsumakov.appointments.common.factory.UuidFactory;
 import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
-@Singleton
+@Component
 @RequiredArgsConstructor
 public final class PatientFactory {
 

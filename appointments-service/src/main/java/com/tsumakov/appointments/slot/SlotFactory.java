@@ -3,12 +3,12 @@ package dev.tsumakov.appointments.slot;
 import dev.tsumakov.appointments.common.AppointmentObjects;
 import dev.tsumakov.appointments.service.ServiceCategory;
 import dev.tsumakov.appointments.slot.status.SlotStatus;
-import jakarta.inject.Singleton;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
-@Singleton
+@Component
 @RequiredArgsConstructor
 public final class SlotFactory {
 

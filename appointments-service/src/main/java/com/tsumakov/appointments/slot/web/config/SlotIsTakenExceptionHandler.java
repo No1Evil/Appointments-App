@@ -7,10 +7,10 @@ import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
 import io.micronaut.http.annotation.Produces;
 import io.micronaut.http.server.exceptions.ExceptionHandler;
-import jakarta.inject.Singleton;
+import org.springframework.stereotype.Component;
 
-@Singleton
 @Produces
+@Component
 public final class SlotIsTakenExceptionHandler
     implements ExceptionHandler<SlotIsTakenException, HttpResponse<?>> {
 

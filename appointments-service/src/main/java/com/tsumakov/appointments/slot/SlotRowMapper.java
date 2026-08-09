@@ -2,15 +2,15 @@ package dev.tsumakov.appointments.slot;
 
 import dev.tsumakov.appointments.service.ServiceCategoryService;
 import dev.tsumakov.appointments.slot.status.SlotStatus;
-import jakarta.inject.Singleton;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.OffsetDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Component;
 
-@Singleton
+@Component
 @RequiredArgsConstructor
 public final class SlotRowMapper implements RowMapper<Slot> {
 

@@ -6,8 +6,9 @@ import dev.tsumakov.appointments.service.ServiceCategory;
 import jakarta.inject.Singleton;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
-@Singleton
+@Component
 @RequiredArgsConstructor
 public final class PractitionerFactory {
 
