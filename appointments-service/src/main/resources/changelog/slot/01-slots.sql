@@ -15,3 +15,6 @@ COMMENT ON COLUMN slots.status IS 'Status of the slot (busy, free)';
 COMMENT ON COLUMN slots.service IS 'Categorization of the service that is to be performed during an appointment (dental, gp, mental-health).';
 COMMENT ON COLUMN slots.start_time IS 'Date and time of slot to begin.';
 COMMENT ON COLUMN slots.end_time IS 'Date and time of slot to end.';
+
+ALTER TABLE slots
+ADD CONSTRAINT chk_slots_start_before_end CHECK (start_time < end_time);
