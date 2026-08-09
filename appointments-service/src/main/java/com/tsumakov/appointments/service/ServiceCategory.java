@@ -1,16 +1,19 @@
 package dev.tsumakov.appointments.service;
 
-import io.micronaut.serde.annotation.Serdeable;
-import lombok.Data;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
+import lombok.Getter;
+import lombok.ToString;
 
-@Serdeable
-@Data
-@Accessors(chain = true)
+@Getter
+@ToString
+@Builder(access = AccessLevel.PACKAGE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public final class ServiceCategory {
   @EqualsAndHashCode.Include
-  private String code;
-  private String name;
+  private final String code;
+  private final String name;
 }

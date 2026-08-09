@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 public class ServiceCategoryService {
 
   private static final Map<String, ServiceCategory> serviceCategories = Map.of(
-      "dental", new ServiceCategory().setCode("dental").setName("Dental Service"),
-      "gp", new ServiceCategory().setCode("gp").setName("General Practitioner"),
-      "mental-health", new ServiceCategory().setCode("mental-health").setName("Mental Health")
+      "dental", ServiceCategory.builder().code("dental").name("Dental Service").build(),
+      "gp", ServiceCategory.builder().code("gp").name("General Practitioner").build(),
+      "mental-health", ServiceCategory.builder().code("mental-health").name("Mental Health").build()
   );
 
   public List<ServiceCategory> getServices() {
