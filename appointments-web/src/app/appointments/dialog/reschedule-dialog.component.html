@@ -1,0 +1,49 @@
+<h2 mat-dialog-title class="dialog-title">
+  <mat-icon color="primary">autorenew</mat-icon>
+  <span>Reschedule appointment</span>
+</h2>
+
+<mat-dialog-content>
+  <div class="appointment-summary">
+    <span class="appointment-summary-patient">{{ appointment.patientName }}</span>
+    <span class="appointment-summary-meta">
+      {{ appointment.serviceName }} · {{ appointment.startTime | date: 'fullDate' }} · {{ appointment.startTime | date: 'shortTime' }} – {{ appointment.endTime | date: 'shortTime' }}
+    </span>
+  </div>
+
+  <mat-progress-bar *ngIf="loading" mode="indeterminate" class="slots-progress"></mat-progress-bar>
+
+  <ng-container *ngIf="!loading">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>New slot</mat-label>
+      <mat-select [(ngModel)]="selectedSlotId" required>
+        <mat-option *ngFor="let slot of slots" [value]="slot.id">
+          {{ slot.startTime | date: 'EEE, MMM d' }} · {{ slot.startTime | date: 'shortTime' }} – {{ slot.endTime | date: 'shortTime' }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Comment</mat-label>
+      <textarea matInput [(ngModel)]="comment" rows="3"></textarea>
+    </mat-form-field>
+
+    <p class="no-slots" *ngIf="slots.length === 0">
+      No free slots available for {{ appointment.serviceName }}.
+    </p>
+  </ng-container>
+
+  <div class="error" *ngIf="error">
+    <mat-icon>error_outline</mat-icon>
+    <span>{{ error }}</span>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button [disabled]="submitting" (click)="dialogRef.close()">Cancel</button>
+  <button mat-raised-button color="primary"
+          [disabled]="submitting || loading || !selectedSlotId"
+          (click)="submit()">
+    {{ submitting ? 'Rescheduling...' : 'Reschedule' }}
+  </button>
+</mat-dialog-actions>

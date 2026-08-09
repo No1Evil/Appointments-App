@@ -1,0 +1,54 @@
+.dialog-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.appointment-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: #f4f6fb;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+}
+
+.appointment-summary-patient {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.appointment-summary-meta {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.slots-progress {
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 14px;
+}
+
+.no-slots {
+  margin: 0;
+  padding: 12px 0;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: #fdecea;
+  color: #c62828;
+  font-size: 14px;
+}
