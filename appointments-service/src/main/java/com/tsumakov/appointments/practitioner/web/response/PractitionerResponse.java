@@ -1,6 +1,6 @@
 package dev.tsumakov.appointments.practitioner.web.response;
 
-import dev.tsumakov.appointments.service.ServiceCategory;
+import dev.tsumakov.appointments.service.web.response.ServiceCategoryResponse;
 import io.micronaut.serde.annotation.Serdeable;
 import java.util.UUID;
 
@@ -9,7 +9,7 @@ public record PractitionerResponse(
     UUID id,
     String firstName,
     String lastName,
-    ServiceCategory service
+    ServiceCategoryResponse service
 ) {
 
 }
