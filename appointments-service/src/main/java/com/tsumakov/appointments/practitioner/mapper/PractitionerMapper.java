@@ -1,6 +1,8 @@
 package dev.tsumakov.appointments.practitioner.mapper;
 
 import dev.tsumakov.appointments.practitioner.Practitioner;
+import dev.tsumakov.appointments.practitioner.PractitionerParams;
+import dev.tsumakov.appointments.practitioner.web.request.FilterPractitionersRequest;
 import dev.tsumakov.appointments.practitioner.web.response.PractitionerResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants.ComponentModel;
@@ -9,5 +11,7 @@ import org.mapstruct.MappingConstants.ComponentModel;
 public interface PractitionerMapper {
 
   PractitionerResponse toResponse(Practitioner practitioner);
+
+  PractitionerParams toParams(FilterPractitionersRequest request);
 
 }

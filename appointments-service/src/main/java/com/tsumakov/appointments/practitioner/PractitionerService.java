@@ -1,6 +1,8 @@
 package dev.tsumakov.appointments.practitioner;
 
 import dev.tsumakov.appointments.practitioner.exception.PractitionerNotFoundException;
+import dev.tsumakov.appointments.slot.SlotParams;
+import jakarta.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -20,5 +22,11 @@ public class PractitionerService {
 
   public List<Practitioner> listAll() {
     return repository.findAll();
+  }
+
+  public List<Practitioner> listByFilter(@Nullable PractitionerParams params) {
+    if (params == null)
+      return listAll();
+    return repository.listByFilter(params);
   }
 }

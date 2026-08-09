@@ -1,6 +1,9 @@
 package dev.tsumakov.appointments.practitioner;
 
 import dev.tsumakov.appointments.common.repository.CrudRepository;
+import dev.tsumakov.appointments.slot.SlotParams;
+import jakarta.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -65,5 +68,17 @@ public class PractitionerRepository implements CrudRepository<Practitioner, UUID
     String sql = "delete from practitioners where id = ?";
     int rowsUpdated = jdbcTemplate.update(sql, identifier);
     return rowsUpdated > 0;
+  }
+
+  public List<Practitioner> listByFilter(@Nonnull PractitionerParams params) {
+    StringBuilder sql = new StringBuilder("select * from practitioners where 1=1");
+    List<Object> args = new ArrayList<>();
+
+    if (params.serviceCode() != null) {
+      sql.append(" and service_code = ?");
+      args.add(params.serviceCode());
+    }
+
+    return jdbcTemplate.query(sql.toString(), rowMapper, args.toArray());
   }
 }
