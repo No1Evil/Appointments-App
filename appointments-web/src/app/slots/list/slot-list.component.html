@@ -1,16 +1,38 @@
-<h3>Slots</h3>
-<table class="slot-list">
-  <tr>
-    <th>Status</th>
-    <th>Service</th>
-    <th>Start</th>
-    <th>End</th>
-  </tr>
-  <tr *ngFor="let slot of slots">
-    <td>{{slot.status}}</td>
-    <td>{{slot.service}}</td>
-    <td>{{slot.startTime}}</td>
-    <td>{{slot.endTime}}</td>
-  </tr>
-</table>
+<div class="slot-page">
+  <div class="slot-header">
+    <div class="slot-header-text">
+      <h2>Available slots</h2>
+      <p class="slot-subtitle" *ngIf="!loading">
+        {{ slots.length }} free {{ slots.length === 1 ? 'slot' : 'slots' }} ·
+        {{ slotGroups.length }} {{ slotGroups.length === 1 ? 'day' : 'days' }}
+      </p>
+    </div>
 
+    <mat-form-field appearance="outline" class="service-filter">
+      <mat-label>Service</mat-label>
+      <mat-select [(ngModel)]="selectedService" (ngModelChange)="loadSlots()">
+        <mat-option [value]="undefined">All services</mat-option>
+        <mat-option *ngFor="let service of services" [value]="service.code">{{ service.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <mat-progress-bar *ngIf="loading" mode="indeterminate" class="slot-progress"></mat-progress-bar>
+
+  <ng-container *ngIf="!loading">
+    <section class="slot-day" *ngFor="let group of slotGroups">
+      <h3 class="slot-day-title">{{ group.date | date: 'YYYY, EEEE, MMMM d' }}</h3>
+      <div class="slot-grid">
+        <button class="slot-chip" *ngFor="let slot of group.slots" (click)="book(slot)">
+          <span class="slot-time">{{ slot.startTime | date: 'shortTime' }}</span>
+          <span class="slot-end">– {{ slot.endTime | date: 'shortTime' }}</span>
+        </button>
+      </div>
+    </section>
+
+    <div class="slot-empty" *ngIf="slotGroups.length === 0">
+      <mat-icon class="slot-empty-icon">event_busy</mat-icon>
+      <p>No free slots available{{ selectedService ? ' for the selected service' : '' }}.</p>
+    </div>
+  </ng-container>
+</div>
