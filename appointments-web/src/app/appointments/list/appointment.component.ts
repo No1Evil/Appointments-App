@@ -16,7 +16,7 @@ import {
   PatientService,
   PractitionerResponse,
   PractitionerService,
-  ServiceCategory,
+  ServiceCategoryResponse,
   ServiceCategoryService
 } from '../../api';
 import { CommentDialogComponent } from '../dialog/comment-dialog.component';
@@ -50,7 +50,7 @@ export class AppointmentComponent implements OnInit {
     AppointmentStatus.Cancelled,
     AppointmentStatus.Completed
   ];
-  public services: ServiceCategory[] = [];
+  public services: ServiceCategoryResponse[] = [];
   public patients: PatientResponse[] = [];
   public practitioners: PractitionerResponse[] = [];
 

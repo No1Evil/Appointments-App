@@ -9,7 +9,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import {
-  ServiceCategory,
+  ServiceCategoryResponse,
   ServiceCategoryService,
   SlotResponse,
   SlotService,
@@ -45,7 +45,7 @@ interface SlotDayGroup {
 export class SlotListComponent implements OnInit {
 
   public slots: SlotResponse[] = [];
-  public services: ServiceCategory[] = [];
+  public services: ServiceCategoryResponse[] = [];
   public selectedService?: string;
   public loading = false;
   public slotGroups: SlotDayGroup[] = [];
