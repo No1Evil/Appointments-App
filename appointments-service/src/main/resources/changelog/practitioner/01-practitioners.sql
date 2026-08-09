@@ -7,5 +7,5 @@ create table if not exists practitioners
     id uuid primary key,
     first_name varchar(50) not null,
     last_name varchar(50) not null,
-    service_name varchar(30) not null
+    service_code varchar(30) not null
 )

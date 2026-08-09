@@ -1,5 +1,6 @@
 package dev.tsumakov.appointments.practitioner;
 
+import dev.tsumakov.appointments.service.ServiceCategory;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,5 +20,5 @@ public class Practitioner {
   private UUID id;
   private String firstName;
   private String lastName;
-  private String serviceName;
+  private ServiceCategory service;
 }

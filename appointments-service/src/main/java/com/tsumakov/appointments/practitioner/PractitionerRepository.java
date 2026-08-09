@@ -16,12 +16,7 @@ import org.springframework.stereotype.Repository;
 public class PractitionerRepository implements CrudRepository<Practitioner, UUID> {
 
   private final JdbcTemplate jdbcTemplate;
-  private final RowMapper<Practitioner> rowMapper = ((rs, rowNum) -> Practitioner.builder()
-      .id(rs.getObject("id", UUID.class))
-      .firstName(rs.getString("first_name"))
-      .lastName(rs.getString("last_name"))
-      .serviceName(rs.getString("service_name"))
-      .build());
+  private final RowMapper<Practitioner> rowMapper;
 
   @Override
   public Optional<Practitioner> findBy(@NonNull UUID identifier) throws DataAccessException {
@@ -43,11 +38,11 @@ public class PractitionerRepository implements CrudRepository<Practitioner, UUID
         id,
         first_name,
         last_name,
-        service_name
+        service_code
         ) values (?, ?, ?, ?)
         """;
     jdbcTemplate.update(sql, entity.getId(), entity.getFirstName(), entity.getLastName(),
-        entity.getServiceName());
+        entity.getService().getCode());
     return entity.getId();
   }
 
@@ -57,11 +52,11 @@ public class PractitionerRepository implements CrudRepository<Practitioner, UUID
         update practitioners set
           first_name = ?,
           last_name = ?,
-          service_name = ?
+          service_code = ?
         where id = ?
         """;
     int rowsUpdated = jdbcTemplate.update(sql, entity.getFirstName(), entity.getLastName(),
-        entity.getServiceName(), entity.getId());
+        entity.getService().getCode(), entity.getId());
     return rowsUpdated > 0;
   }
 
