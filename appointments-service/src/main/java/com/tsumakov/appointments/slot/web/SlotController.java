@@ -3,6 +3,7 @@ package dev.tsumakov.appointments.slot.web;
 import dev.tsumakov.appointments.slot.SlotParams;
 import dev.tsumakov.appointments.slot.SlotService;
 import dev.tsumakov.appointments.slot.mapper.SlotMapper;
+import dev.tsumakov.appointments.slot.web.request.FilterSlotsRequest;
 import dev.tsumakov.appointments.slot.web.response.SlotResponse;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Controller;
@@ -30,10 +31,12 @@ public class SlotController {
     return HttpResponse.ok(slotMapper.toResponse(result));
   }
 
-  @Get("{?params*}")
-  @Operation(operationId = "getSlotsByFilter", summary = "get slots by filter")
-  public HttpResponse<List<SlotResponse>> getByFilter(@Valid @Nullable @RequestBean SlotParams params) {
-    var result = slotService.getByFilter(params);
+  @Get("{?request*}")
+  @Operation(operationId = "getSlots", summary = "get all slots")
+  public HttpResponse<List<SlotResponse>> get(
+      @Valid @Nullable @RequestBean FilterSlotsRequest request
+  ) {
+    var result = slotService.getByFilter(slotMapper.toParams(request));
     var response = result.stream().map(slotMapper::toResponse).toList();
     return HttpResponse.ok(response);
   }
