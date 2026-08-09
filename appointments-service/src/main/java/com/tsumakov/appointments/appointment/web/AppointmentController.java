@@ -34,22 +34,22 @@ public class AppointmentController {
   private final AppointmentMapper mapper;
 
   @Get("/{id}")
-  @Operation(operationId = "getAppointmentById", summary = "gets appointment")
+  @Operation(operationId = "getAppointmentById", summary = "get appointment")
   public HttpResponse<AppointmentResponse> getById(@PathVariable UUID id) {
     var result = service.getAppointment(id);
     return HttpResponse.ok(mapper.toResponse(result));
   }
 
   @Get("{?request*}")
-  @Operation(operationId = "getAppointmentsByFilter", summary = "gets appointment by filter")
-  public HttpResponse<List<AppointmentResponse>> getByFilter(
+  @Operation(operationId = "getAppointments", summary = "get appointment")
+  public HttpResponse<List<AppointmentResponse>> get(
       @Valid @Nullable @RequestBean FilterAppointmentsRequest request) {
     var result = service.listFiltered(request).stream().map(mapper::toResponse).toList();
     return HttpResponse.ok(result);
   }
 
   @Post
-  @Operation(operationId = "submitAppointment", summary = "submits appointment")
+  @Operation(operationId = "submitAppointment", summary = "submit appointment")
   public HttpResponse<AppointmentResponse> submitAppointment(
       @Valid @Body SubmitAppointmentRequest request
   ) {
@@ -58,7 +58,7 @@ public class AppointmentController {
   }
 
   @Put
-  @Operation(operationId = "rescheduleAppointment", summary = "reschedules appointment")
+  @Operation(operationId = "rescheduleAppointment", summary = "reschedule appointment")
   public HttpResponse<AppointmentResponse> reschedule(
       @Valid @Body RescheduleAppointmentRequest request
   ) {
@@ -67,7 +67,7 @@ public class AppointmentController {
   }
 
   @Patch()
-  @Operation(operationId = "updateAppointmentComment", summary = "updates comment on an appointment")
+  @Operation(operationId = "updateAppointmentComment", summary = "update comment on an appointment")
   public HttpResponse<AppointmentResponse> updateComment(
       @Body @Valid UpdateAppointmentCommentRequest request
   ) {
@@ -76,7 +76,7 @@ public class AppointmentController {
   }
 
   @Delete("/{id}")
-  @Operation(operationId = "cancelAppointment", summary = "cancels the appointment")
+  @Operation(operationId = "cancelAppointment", summary = "cancel the appointment")
   public HttpResponse<Void> cancel(@PathVariable UUID id) {
     service.cancel(id);
     return HttpResponse.noContent();
