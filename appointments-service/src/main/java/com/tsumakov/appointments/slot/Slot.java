@@ -44,6 +44,10 @@ public final class Slot {
     return this.status == SlotStatus.BLOCKED;
   }
 
+  public String getStatusName() {
+    return status.toString().toLowerCase();
+  }
+
   public void markAsBooked() throws SlotIsTakenException {
     checkCanBeChanged();
     this.status = SlotStatus.BOOKED;

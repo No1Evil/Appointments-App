@@ -51,7 +51,7 @@ public final class SlotRepository implements CrudRepository<Slot, Long> {
         """;
     GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
     jdbcTemplate.update(sql, keyHolder,
-        entity.getStatus().toString(), entity.getService().getCode(),
+        entity.getStatusName(), entity.getService().getCode(),
         entity.getStartTime(), entity.getEndTime());
 
     return keyHolder.getKey() != null ? keyHolder.getKey().longValue() : null;
@@ -67,7 +67,7 @@ public final class SlotRepository implements CrudRepository<Slot, Long> {
           end_time = ?
         where id = ?
         """;
-    int rowsUpdated = jdbcTemplate.update(sql, entity.getStatus().toString(),
+    int rowsUpdated = jdbcTemplate.update(sql, entity.getStatusName(),
         entity.getService().getCode(), entity.getStartTime(), entity.getEndTime(), entity.getId());
     return rowsUpdated > 0;
   }
