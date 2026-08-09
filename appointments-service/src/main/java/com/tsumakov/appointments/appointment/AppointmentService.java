@@ -106,8 +106,8 @@ public class AppointmentService {
   @Transactional
   public Appointment markCompleted(@Nonnull UUID appointmentId) {
     Appointment appointment = getAppointment(appointmentId);
-
     appointment.complete();
+    slotService.markSlotFree(appointment.getSlotId());
     repository.update(appointment);
     return appointment;
   }
