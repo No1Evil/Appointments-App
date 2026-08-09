@@ -1,3 +1,95 @@
-<h3>Add view here</h3>
+<div class="appointment-page">
+  <div class="appointment-header">
+    <div>
+      <h2>Appointments</h2>
+      <p class="appointment-subtitle" *ngIf="!loading">
+        {{ appointments.length }} {{ appointments.length === 1 ? 'appointment' : 'appointments' }}
+      </p>
+    </div>
+  </div>
 
+  <div class="appointment-filters">
+    <mat-form-field appearance="outline">
+      <mat-label>Status</mat-label>
+      <mat-select [(ngModel)]="selectedStatus" (ngModelChange)="loadAppointments()">
+        <mat-option [value]="undefined">All</mat-option>
+        <mat-option *ngFor="let status of statuses" [value]="status">{{ statusLabel(status) }}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
+    <mat-form-field appearance="outline">
+      <mat-label>Service</mat-label>
+      <mat-select [(ngModel)]="selectedService" (ngModelChange)="loadAppointments()">
+        <mat-option [value]="undefined">All</mat-option>
+        <mat-option *ngFor="let service of services" [value]="service.name">{{ service.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Patient</mat-label>
+      <mat-select [(ngModel)]="selectedPatientId" (ngModelChange)="loadAppointments()">
+        <mat-option [value]="undefined">All</mat-option>
+        <mat-option *ngFor="let patient of patients" [value]="patient.id">
+          {{ patient.firstName }} {{ patient.lastName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Practitioner</mat-label>
+      <mat-select [(ngModel)]="selectedPractitionerId" (ngModelChange)="loadAppointments()">
+        <mat-option [value]="undefined">All</mat-option>
+        <mat-option *ngFor="let practitioner of practitioners" [value]="practitioner.id">
+          {{ practitioner.firstName }} {{ practitioner.lastName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <mat-progress-bar *ngIf="loading" mode="indeterminate" class="appointment-progress"></mat-progress-bar>
+
+  <ng-container *ngIf="!loading">
+    <div class="appointment-card" *ngFor="let appointment of appointments">
+      <div class="appointment-card-main">
+        <div class="appointment-card-title">
+          <span class="appointment-patient">{{ appointment.patientName }}</span>
+          <span class="status-chip" [class]="statusClass(appointment.status)">{{ statusLabel(appointment.status) }}</span>
+        </div>
+        <p class="appointment-card-subtitle">
+          {{ appointment.practitionerName }} · {{ appointment.serviceName }}
+        </p>
+        <p class="appointment-card-meta">
+          <mat-icon>schedule</mat-icon>
+          <span>{{ appointment.startTime | date: 'fullDate' }} · {{ appointment.startTime | date: 'shortTime' }} – {{ appointment.endTime | date: 'shortTime' }}</span>
+        </p>
+        <p class="appointment-card-meta" *ngIf="appointment.comment">
+          <mat-icon>chat_bubble_outline</mat-icon>
+          <span>{{ appointment.comment }}</span>
+        </p>
+      </div>
+      <div class="appointment-card-actions">
+        <button mat-stroked-button *ngIf="appointment.status === 'SCHEDULED'" (click)="reschedule(appointment)">
+          <mat-icon>autorenew</mat-icon>
+          Reschedule
+        </button>
+        <button mat-stroked-button (click)="editComment(appointment)">
+          <mat-icon>edit</mat-icon>
+          Comment
+        </button>
+        <button mat-stroked-button color="warn" *ngIf="appointment.status === 'SCHEDULED'" (click)="cancel(appointment)">
+          <mat-icon>event_busy</mat-icon>
+          Cancel
+        </button>
+        <button mat-stroked-button *ngIf="appointment.status === 'SCHEDULED'" (click)="complete(appointment)">
+          <mat-icon>check_circle</mat-icon>
+          Complete
+        </button>
+      </div>
+    </div>
+
+    <div class="appointment-empty" *ngIf="appointments.length === 0">
+      <mat-icon class="appointment-empty-icon">event_note</mat-icon>
+      <p>No appointments found{{ hasActiveFilters ? ' for the selected filters' : ' yet' }}.</p>
+    </div>
+  </ng-container>
+</div>

@@ -1,1 +1,143 @@
-//TODO: add classes here
+.appointment-page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 28px 20px 56px;
+}
+
+.appointment-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
+
+  h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 500;
+  }
+}
+
+.appointment-subtitle {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.appointment-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
+
+  mat-form-field {
+    width: 200px;
+  }
+}
+
+.appointment-progress {
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.appointment-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  padding: 16px 20px;
+  margin-bottom: 12px;
+}
+
+.appointment-card-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.appointment-patient {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.status-chip {
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.status-chip.scheduled {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.status-chip.cancelled {
+  background: #fdecea;
+  color: #c62828;
+}
+
+.status-chip.completed {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.appointment-card-subtitle {
+  margin: 6px 0 0;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.appointment-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.6);
+
+  mat-icon {
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.45);
+  }
+}
+
+.appointment-card-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+
+  mat-icon {
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+  }
+}
+
+.appointment-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 56px 0;
+  color: rgba(0, 0, 0, 0.54);
+
+  p {
+    margin: 12px 0 0;
+    font-size: 15px;
+  }
+}
+
+.appointment-empty-icon {
+  width: 48px;
+  height: 48px;
+  font-size: 48px;
+}
