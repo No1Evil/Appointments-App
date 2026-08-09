@@ -1,8 +1,13 @@
-<div class="main">
-  <h1>Tsumakov Appointments App</h1>
-</div>
+<mat-toolbar color="primary" class="app-toolbar">
+  <mat-icon class="app-logo">calendar_month</mat-icon>
+  <span class="app-title">Tsumakov Appointments</span>
 
-<!-- TODO: add support for navigation between different views -->
-<slot-list></slot-list>
+  <nav class="app-nav">
+    <a mat-button routerLink="/slots" routerLinkActive="active-link">Slots</a>
+    <a mat-button routerLink="/appointments" routerLinkActive="active-link">Appointments</a>
+  </nav>
+</mat-toolbar>
 
-<router-outlet/>
+<main class="app-content">
+  <router-outlet/>
+</main>
