@@ -1,48 +1,76 @@
 # Appointments App
-This repository contains template applications (both backend and frontend) for "Appointments App" test assignment.
+Application that allows you to book, view, and cancel health appointments with practitioners.
 
-## Prerequisites
+## Navigation
 
-The following items have to be installed on your machine in order to get your work done:
+- [Preview](docs/PREVIEW.md#preview)
+- [System context](docs/PREVIEW.md#system-context)
+- [Running manually](#running-manually)
+- [Running tests](#running-backend-tests)
+
+## Running manually
+
+### Prerequisites
 
 * Docker
 * Java 21
 * Node.js 20+
 * Angular CLI
 
-## Prepare database (PostgreSQL 16.1)
+### Prepare database (PostgreSQL 16.1)
 
 ```
 docker run --name appointments-db -e POSTGRES_PASSWORD=test -p 5432:5432 -d postgres:16.1
 ```
+
 This command will start PostgreSQL container listening for connection on **localhost:5432**.
 Username is **postgres** and password is **test**.
 
 If for some reason you have to re-initialize Postgres container from the scratch then run:
-`docker rm -fv appointments-db` and execute `docker run` command again.
+`docker rm -fv appointments-db` and execute `docker run` command again, or look for the container
+id through `docker ps`.
 
-
-## Running the backend application
+### Running the backend application
 
 Under `appointments-service` folder execute the following command:
+
 ```
 ./gradlew run
 ```
-After that navigate to `http://localhost:8080/appointments` in your browser to verify that backend application is running and JSON response is returned.
 
-## Running the frontend application
+### Running the frontend application
 
 Navigate to `appointments-web` folder and before the first launch install required dependencies:
 ```
 npm install
 ```
 
-When dependencies are installed run the frontend application:
+Generate the API from the built backend
+
+```
+npx @openapitools/openapi-generator-cli generate -g typescript-angular \
+-i ../appointments-service/build/classes/java/main/META-INF/swagger/appointments-application-v0.1.yml -o src/app/api
+```
+
+When dependencies are installed and API is generated run the frontend application:
 ```
 ng serve
 ```
 
-and navigate to `http://localhost:4200` in your browser. You should see a very basic list of requested vacations.
+and navigate to `http://localhost:4200` in your browser.
 
-#
-**Happy coding!**
+## Running backend tests
+
+Navigate to `appointments-service`
+
+### Running unit tests
+
+```
+./gradlew test
+```
+
+### Running integration testing
+
+```
+./gradlew integrationTest
+```
