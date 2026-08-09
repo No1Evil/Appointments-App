@@ -2,7 +2,7 @@
 --changeset maksim.boiko@tsumakov.com:01-slots_gp_data.sql
 
 --19.09.2026
-INSERT INTO slots(status, service, start_time, end_time)
+INSERT INTO slots(status, service_code, start_time, end_time)
 VALUES ('free', 'gp', TO_TIMESTAMP('2026.09.19 09:30:00', 'YYYY.MM.DD HH24:MI:SS'), TO_TIMESTAMP('2026.09.19 10:00:00', 'YYYY.MM.DD HH24:MI:SS'));
 INSERT INTO slots(status, service, start_time, end_time)
 VALUES ('free', 'gp', TO_TIMESTAMP('2026.09.19 10:00:00', 'YYYY.MM.DD HH24:MI:SS'), TO_TIMESTAMP('2026.09.19 10:30:00', 'YYYY.MM.DD HH24:MI:SS'));

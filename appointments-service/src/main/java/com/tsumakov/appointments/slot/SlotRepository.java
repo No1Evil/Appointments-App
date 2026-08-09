@@ -44,7 +44,7 @@ public class SlotRepository implements CrudRepository<Slot, Long> {
     String sql = """
         insert into slots (
           status,
-          service,
+          service_code,
           start_time,
           end_time
         ) values (?, ?, ?, ?)
@@ -62,7 +62,7 @@ public class SlotRepository implements CrudRepository<Slot, Long> {
     String sql = """
         update slots set
           status = ?,
-          service = ?,
+          service_code = ?,
           start_time = ?,
           end_time = ?
         where id = ?
@@ -88,7 +88,7 @@ public class SlotRepository implements CrudRepository<Slot, Long> {
       args.add(params.status().toString().trim().toLowerCase());
     }
     if (params.serviceCode() != null) {
-      sql.append(" and service = ?");
+      sql.append(" and service_code = ?");
       args.add(params.serviceCode());
     }
     if (params.startTime() != null) {
