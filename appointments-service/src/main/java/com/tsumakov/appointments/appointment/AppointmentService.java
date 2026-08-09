@@ -8,7 +8,9 @@ import dev.tsumakov.appointments.appointment.web.request.FilterAppointmentsReque
 import dev.tsumakov.appointments.appointment.web.request.SubmitAppointmentRequest;
 import dev.tsumakov.appointments.appointment.web.request.RescheduleAppointmentRequest;
 import dev.tsumakov.appointments.appointment.web.request.UpdateAppointmentCommentRequest;
+import dev.tsumakov.appointments.patient.Patient;
 import dev.tsumakov.appointments.patient.PatientService;
+import dev.tsumakov.appointments.practitioner.Practitioner;
 import dev.tsumakov.appointments.practitioner.PractitionerService;
 import dev.tsumakov.appointments.slot.Slot;
 import dev.tsumakov.appointments.slot.SlotService;
@@ -63,7 +65,8 @@ public class AppointmentService {
     Slot newSlot = slotService.getValidSlotForAppointment(request.slotId());
 
     appointment.reschedule(newSlot, request.comment());
-    validatePatientHasNoIntersections(appointment.getPatientId(), appointment);
+    validateUsersHasNoIntersections(appointment.getPatientId(), appointment.getPractitionerId(),
+        appointment);
 
     slotService.markSlotFree(oldSlot);
     slotService.markSlotBooked(newSlot);
@@ -81,15 +84,19 @@ public class AppointmentService {
 
   @Transactional
   public Appointment submit(SubmitAppointmentRequest request) {
-    // Validate if users are in the system.
-    practitionerService.findById(request.practitionerId());
-    patientService.findById(request.patientId());
+    Practitioner practitioner = practitionerService.findById(request.practitionerId());
+    Patient patient = patientService.findById(request.patientId());
 
     Slot slot = slotService.getValidSlotForAppointment(request.slotId());
 
+    if (!practitioner.getService().equals(slot.getService())) {
+      throw new AppointmentValidationException(
+          "Cannot submit appointment due to practitioner not serving this service");
+    }
+
     Appointment appointment = createNewAppointment(request, slot);
 
-    validatePatientHasNoIntersections(request.patientId(), appointment);
+    validateUsersHasNoIntersections(patient.getId(), practitioner.getId(), appointment);
 
     slotService.markSlotBooked(slot);
     repository.create(appointment);
@@ -109,11 +116,13 @@ public class AppointmentService {
     );
   }
 
-  private void validatePatientHasNoIntersections(@Nonnull UUID patientId,
+  private void validateUsersHasNoIntersections(@Nonnull UUID patientId,
+      @Nonnull UUID practitionerId,
       @Nonnull Appointment appointment)
       throws AppointmentValidationException {
-    var appointments = repository.findPatientOverlappingAppointments(
+    var appointments = repository.findUsersOverlappingAppointments(
         patientId,
+        practitionerId,
         appointment.getStartTime(),
         appointment.getEndTime(),
         appointment.getId()

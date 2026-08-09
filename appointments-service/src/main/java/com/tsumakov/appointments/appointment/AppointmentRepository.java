@@ -141,8 +141,11 @@ public final class AppointmentRepository implements CrudRepository<Appointment, 
     return updatedRows > 0;
   }
 
-  public List<Appointment> findPatientOverlappingAppointments(@Nonnull UUID patientId,
-      @Nonnull OffsetDateTime startTime, @Nonnull OffsetDateTime endTime, UUID currentAppointmentId) {
+  public List<Appointment> findUsersOverlappingAppointments(
+      @Nonnull UUID patientId, @Nonnull UUID practitionerId,
+      @Nonnull OffsetDateTime startTime, @Nonnull OffsetDateTime endTime,
+      @Nonnull UUID currentAppointmentId
+  ) {
     String sql = """
         select a.*,
           p.first_name || ' ' || p.last_name as practitioner_name,
@@ -150,7 +153,7 @@ public final class AppointmentRepository implements CrudRepository<Appointment, 
         from appointments a
         left join practitioners p on p.id = a.practitioner_id
         left join patients pt on pt.id = a.patient_id
-        where a.patient_id = ?
+        where (a.patient_id = ? or a.practitioner_id = ?)
           and (?::uuid is null or a.id != ?)
           and a.status not in ('CANCELLED')
           and a.start_time < ?
@@ -161,6 +164,7 @@ public final class AppointmentRepository implements CrudRepository<Appointment, 
         sql,
         rowMapper,
         patientId,
+        practitionerId,
         currentAppointmentId,
         currentAppointmentId,
         endTime,
