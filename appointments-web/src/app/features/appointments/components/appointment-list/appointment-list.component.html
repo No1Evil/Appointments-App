@@ -1,0 +1,51 @@
+<mat-progress-bar *ngIf="loading" mode="indeterminate" class="appointment-progress"></mat-progress-bar>
+
+<div class="appointment-error" *ngIf="error && !loading">
+  <mat-icon>error_outline</mat-icon>
+  <p>{{ error }}</p>
+</div>
+
+<ng-container *ngIf="!loading && !error">
+  <div class="appointment-card" *ngFor="let appointment of appointments">
+    <div class="appointment-card-main">
+      <div class="appointment-card-title">
+        <span class="appointment-patient">{{ appointment.patientName }}</span>
+        <span class="status-chip" [class]="statusClass(appointment.status)">{{ statusLabel(appointment.status) }}</span>
+      </div>
+      <p class="appointment-card-subtitle">
+        {{ appointment.practitionerName }} · {{ appointment.serviceName }}
+      </p>
+      <p class="appointment-card-meta">
+        <mat-icon>schedule</mat-icon>
+        <span>{{ appointment.startTime | date: 'fullDate' }} · {{ appointment.startTime | date: 'shortTime' }} – {{ appointment.endTime | date: 'shortTime' }}</span>
+      </p>
+      <p class="appointment-card-meta" *ngIf="appointment.comment">
+        <mat-icon>chat_bubble_outline</mat-icon>
+        <span>{{ appointment.comment }}</span>
+      </p>
+    </div>
+    <div class="appointment-card-actions">
+      <button mat-stroked-button *ngIf="isScheduled(appointment)" (click)="reschedule.emit(appointment)">
+        <mat-icon>autorenew</mat-icon>
+        Reschedule
+      </button>
+      <button mat-stroked-button (click)="editComment.emit(appointment)">
+        <mat-icon>edit</mat-icon>
+        Comment
+      </button>
+      <button mat-stroked-button color="warn" *ngIf="isScheduled(appointment)" (click)="cancel.emit(appointment)">
+        <mat-icon>event_busy</mat-icon>
+        Cancel
+      </button>
+      <button mat-stroked-button *ngIf="isScheduled(appointment)" (click)="complete.emit(appointment)">
+        <mat-icon>check_circle</mat-icon>
+        Complete
+      </button>
+    </div>
+  </div>
+
+  <div class="appointment-empty" *ngIf="appointments.length === 0">
+    <mat-icon class="appointment-empty-icon">event_note</mat-icon>
+    <p>No appointments found{{ hasActiveFilters ? ' for the selected filters' : ' yet' }}.</p>
+  </div>
+</ng-container>

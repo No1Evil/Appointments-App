@@ -1,0 +1,28 @@
+.slot-page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 28px 20px 56px;
+}
+
+.slot-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.slot-header-text {
+  h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 500;
+  }
+}
+
+.slot-subtitle {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.6);
+}

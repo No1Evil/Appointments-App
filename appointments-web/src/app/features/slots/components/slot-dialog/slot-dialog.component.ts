@@ -6,16 +6,11 @@ import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/materia
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
-import {
-  AppointmentService,
-  PatientResponse,
-  PatientService,
-  PractitionerResponse,
-  PractitionerService,
-  SlotResponse,
-  SubmitAppointmentRequest
-} from '../../api';
+import { AppointmentService, SlotResponse, SubmitAppointmentRequest } from '../../../../core/api';
+import { PatientsFacade } from '../../../patients/facades/patients.facade';
+import { PractitionersFacade } from '../../../practitioners/facades/practitioners.facade';
 
 @Component({
   selector: 'slot-dialog',
@@ -30,6 +25,7 @@ import {
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatProgressBarModule,
     MatSelectModule
   ],
   templateUrl: 'slot-dialog.component.html',
@@ -37,8 +33,6 @@ import {
 })
 export class SlotDialogComponent implements OnInit {
 
-  public patients: PatientResponse[] = [];
-  public practitioners: PractitionerResponse[] = [];
   public patientId?: string;
   public practitionerId?: string;
   public comment?: string;
@@ -48,14 +42,14 @@ export class SlotDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<SlotDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public slot: SlotResponse,
-    private patientService: PatientService,
-    private practitionerService: PractitionerService,
+    public patientsFacade: PatientsFacade,
+    public practitionersFacade: PractitionersFacade,
     private appointmentService: AppointmentService
   ) {}
 
   public ngOnInit(): void {
-    this.patientService.getAllPatients().subscribe(patients => this.patients = patients);
-    this.practitionerService.getPractitioners(this.slot.service.code).subscribe(practitioners => this.practitioners = practitioners);
+    this.patientsFacade.loadPatients();
+    this.practitionersFacade.selectService(this.slot.service.code);
   }
 
   public submit(): void {

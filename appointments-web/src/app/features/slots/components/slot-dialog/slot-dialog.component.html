@@ -4,6 +4,8 @@
 </h2>
 
 <mat-dialog-content>
+  <mat-progress-bar *ngIf="practitionersFacade.loading()" mode="indeterminate" class="dialog-progress"></mat-progress-bar>
+
   <div class="slot-summary">
     <span class="slot-summary-service">{{ slot.service.name }}</span>
     <span class="slot-summary-time">
@@ -14,7 +16,7 @@
   <mat-form-field appearance="outline" class="full-width">
     <mat-label>Patient</mat-label>
     <mat-select [(ngModel)]="patientId" required>
-      <mat-option *ngFor="let patient of patients" [value]="patient.id">
+      <mat-option *ngFor="let patient of patientsFacade.patients()" [value]="patient.id">
         {{ patient.firstName }} {{ patient.lastName }}
       </mat-option>
     </mat-select>
@@ -23,7 +25,7 @@
   <mat-form-field appearance="outline" class="full-width">
     <mat-label>Practitioner</mat-label>
     <mat-select [(ngModel)]="practitionerId" required>
-      <mat-option *ngFor="let practitioner of practitioners" [value]="practitioner.id">
+      <mat-option *ngFor="let practitioner of practitionersFacade.practitioners()" [value]="practitioner.id">
         {{ practitioner.firstName }} {{ practitioner.lastName }} ({{ practitioner.service.name }})
       </mat-option>
     </mat-select>

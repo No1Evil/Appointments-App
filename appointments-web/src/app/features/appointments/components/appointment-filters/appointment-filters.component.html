@@ -1,0 +1,38 @@
+<div class="appointment-filters">
+  <mat-form-field appearance="outline">
+    <mat-label>Status</mat-label>
+    <mat-select [ngModel]="selectedStatus" (ngModelChange)="statusChanged.emit($event)">
+      <mat-option [value]="undefined">All</mat-option>
+      <mat-option *ngFor="let status of statuses" [value]="status">{{ statusLabel(status) }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Service</mat-label>
+    <mat-select [ngModel]="selectedService" (ngModelChange)="serviceChanged.emit($event)">
+      <mat-option [value]="undefined">All</mat-option>
+      <mat-option *ngFor="let service of services" [value]="service.name">{{ service.name }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Patient</mat-label>
+    <mat-select [ngModel]="selectedPatientId" (ngModelChange)="patientChanged.emit($event)">
+      <mat-option [value]="undefined">All</mat-option>
+      <mat-option *ngFor="let patient of patients" [value]="patient.id">
+        {{ patient.firstName }} {{ patient.lastName }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Practitioner</mat-label>
+    <mat-select [ngModel]="selectedPractitionerId" (ngModelChange)="practitionerChanged.emit($event)">
+      <mat-option [value]="undefined">All</mat-option>
+      <mat-option *ngFor="let practitioner of practitioners" [value]="practitioner.id">
+        {{ practitioner.firstName }} {{ practitioner.lastName }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+

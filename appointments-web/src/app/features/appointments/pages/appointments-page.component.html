@@ -1,0 +1,36 @@
+<div class="appointment-page">
+  <div class="appointment-header">
+    <div>
+      <h2>Appointments</h2>
+      <p class="appointment-subtitle" *ngIf="!facade.loading()">
+        {{ facade.totalCount() }} {{ facade.totalCount() === 1 ? 'appointment' : 'appointments' }}
+      </p>
+    </div>
+  </div>
+
+  <app-appointment-filters
+    [statuses]="statuses"
+    [services]="serviceCategoriesFacade.services()"
+    [patients]="patientsFacade.patients()"
+    [practitioners]="practitionersFacade.practitioners()"
+    [selectedStatus]="facade.status()"
+    [selectedService]="facade.service()"
+    [selectedPatientId]="facade.patientId()"
+    [selectedPractitionerId]="facade.practitionerId()"
+    (statusChanged)="onStatusChanged($event)"
+    (serviceChanged)="onServiceChanged($event)"
+    (patientChanged)="onPatientChanged($event)"
+    (practitionerChanged)="onPractitionerChanged($event)"
+  ></app-appointment-filters>
+
+  <app-appointment-list
+    [appointments]="facade.appointments()"
+    [loading]="facade.loading()"
+    [error]="facade.error()"
+    [hasActiveFilters]="facade.hasActiveFilters()"
+    (reschedule)="reschedule($event)"
+    (editComment)="editComment($event)"
+    (cancel)="cancel($event)"
+    (complete)="complete($event)"
+  ></app-appointment-list>
+</div>

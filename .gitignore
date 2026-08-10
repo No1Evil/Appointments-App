@@ -4,7 +4,7 @@
 
 # Frontend
 */.angular/
-*/src/app/api
+appointments-web/src/app/core/api
 appointments-web/dist
 
 # Log file

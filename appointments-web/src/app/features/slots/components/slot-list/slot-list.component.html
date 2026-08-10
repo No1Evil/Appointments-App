@@ -1,0 +1,23 @@
+<mat-progress-bar *ngIf="loading" mode="indeterminate" class="slot-progress"></mat-progress-bar>
+
+<div class="slot-error" *ngIf="error && !loading">
+  <mat-icon>error_outline</mat-icon>
+  <p>{{ error }}</p>
+</div>
+
+<ng-container *ngIf="!loading && !error">
+  <section class="slot-day" *ngFor="let group of slotGroups">
+    <h3 class="slot-day-title">{{ group.date | date: 'YYYY, EEEE, MMMM d' }}</h3>
+    <div class="slot-grid">
+      <button class="slot-chip" *ngFor="let slot of group.slots" (click)="book(slot)">
+        <span class="slot-time">{{ slot.startTime | date: 'shortTime' }}</span>
+        <span class="slot-end">– {{ slot.endTime | date: 'shortTime' }}</span>
+      </button>
+    </div>
+  </section>
+
+  <div class="slot-empty" *ngIf="slotGroups.length === 0">
+    <mat-icon class="slot-empty-icon">event_busy</mat-icon>
+    <p>No free slots available{{ selectedService ? ' for the selected service' : '' }}.</p>
+  </div>
+</ng-container>

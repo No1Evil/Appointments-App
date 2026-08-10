@@ -1,0 +1,25 @@
+<div class="slot-page">
+  <div class="slot-header">
+    <div class="slot-header-text">
+      <h2>Available slots</h2>
+      <p class="slot-subtitle" *ngIf="!facade.loading()">
+        {{ facade.slots().length }} free {{ facade.slots().length === 1 ? 'slot' : 'slots' }} ·
+        {{ facade.groupedSlots().length }} {{ facade.groupedSlots().length === 1 ? 'day' : 'days' }}
+      </p>
+    </div>
+
+    <app-slot-filters
+      [services]="serviceCategoriesFacade.services()"
+      [selectedService]="facade.selectedService()"
+      (serviceChanged)="onServiceChanged($event)"
+    ></app-slot-filters>
+  </div>
+
+  <app-slot-list
+    [slotGroups]="facade.groupedSlots()"
+    [selectedService]="facade.selectedService()"
+    [loading]="facade.loading()"
+    [error]="facade.error()"
+    (bookSlot)="book($event)"
+  ></app-slot-list>
+</div>

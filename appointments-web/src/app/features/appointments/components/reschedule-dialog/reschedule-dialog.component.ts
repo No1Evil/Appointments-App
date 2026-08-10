@@ -10,12 +10,11 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import {
   AppointmentResponse,
-  AppointmentService,
   RescheduleAppointmentRequest,
-  SlotResponse,
-  SlotService,
-  SlotStatus
-} from '../../api';
+  SlotResponse
+} from '../../../../core/api';
+import { AppointmentsFacade } from '../../facades/appointments.facade';
+import { SlotsFacade } from '../../../slots/facades/slots.facade';
 
 @Component({
   selector: 'reschedule-dialog',
@@ -48,13 +47,13 @@ export class RescheduleDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<RescheduleDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public appointment: AppointmentResponse,
-    private slotService: SlotService,
-    private appointmentService: AppointmentService
+    private slotsFacade: SlotsFacade,
+    private appointmentsFacade: AppointmentsFacade
   ) {}
 
   public ngOnInit(): void {
     this.loading = true;
-    this.slotService.getSlots(SlotStatus.Free, undefined, new Date().toISOString()).subscribe({
+    this.slotsFacade.loadFreeSlots().subscribe({
       next: (slots) => {
         this.slots = slots.filter(slot => slot.service.name === this.appointment.serviceName);
         this.loading = false;
@@ -79,11 +78,11 @@ export class RescheduleDialogComponent implements OnInit {
       comment: this.comment
     };
 
-    this.appointmentService.rescheduleAppointment(request).subscribe({
+    this.appointmentsFacade.rescheduleAppointment(request).subscribe({
       next: () => this.dialogRef.close(true),
       error: (err) => {
         this.submitting = false;
-        this.error = err?.error?.message ?? 'Failed to reschedule appointment';
+        this.error = this.appointmentsFacade.toErrorMessage(err, 'Failed to reschedule appointment');
       }
     });
   }

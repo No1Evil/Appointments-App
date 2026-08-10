@@ -8,9 +8,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import {
   AppointmentResponse,
-  AppointmentService,
   UpdateAppointmentCommentRequest
-} from '../../api';
+} from '../../../../core/api';
+import { AppointmentsFacade } from '../../facades/appointments.facade';
 
 @Component({
   selector: 'comment-dialog',
@@ -36,7 +36,7 @@ export class CommentDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<CommentDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public appointment: AppointmentResponse,
-    private appointmentService: AppointmentService
+    private appointmentsFacade: AppointmentsFacade
   ) {}
 
   public ngOnInit(): void {
@@ -52,11 +52,11 @@ export class CommentDialogComponent implements OnInit {
       comment: this.comment
     };
 
-    this.appointmentService.updateAppointmentComment(request).subscribe({
+    this.appointmentsFacade.updateComment(request).subscribe({
       next: () => this.dialogRef.close(true),
       error: (err) => {
         this.submitting = false;
-        this.error = err?.error?.message ?? 'Failed to update comment';
+        this.error = this.appointmentsFacade.toErrorMessage(err, 'Failed to update comment');
       }
     });
   }

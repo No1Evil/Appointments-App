@@ -49,7 +49,7 @@ Generate the API from the built backend
 
 ```
 npx @openapitools/openapi-generator-cli generate -g typescript-angular \
--i ../appointments-service/build/classes/java/main/META-INF/swagger/appointments-application-v0.1.yml -o src/app/api
+-i ../appointments-service/build/classes/java/main/META-INF/swagger/appointments-application-v0.1.yml -o src/app/core/api
 ```
 
 When dependencies are installed and API is generated run the frontend application:

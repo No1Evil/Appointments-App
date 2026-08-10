@@ -1,0 +1,7 @@
+<mat-form-field appearance="outline" class="service-filter">
+  <mat-label>Service</mat-label>
+  <mat-select [ngModel]="selectedService" (ngModelChange)="onServiceChange($event)">
+    <mat-option [value]="undefined">All services</mat-option>
+    <mat-option *ngFor="let service of services" [value]="service.code">{{ service.name }}</mat-option>
+  </mat-select>
+</mat-form-field>
