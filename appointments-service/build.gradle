@@ -44,6 +44,7 @@ dependencies {
   testImplementation("org.testcontainers:testcontainers")
   testImplementation("org.testcontainers:postgresql")
   testImplementation("org.testcontainers:spock")
+  testRuntimeOnly("net.bytebuddy:byte-buddy:1.18.11")
 }
 
 application {
