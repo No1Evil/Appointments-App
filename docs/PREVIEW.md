@@ -6,9 +6,6 @@
 
 # System context
 
-Oh yeah, there is nothing much to show, 
-due to the system size
+![System context](images/system-context.png)
 
-![System context](docs/images/system-context.png)
-
-![Entity relation model](docs/images/entity-relation.png)
+![Entity relation model](images/entity-relation.png)
