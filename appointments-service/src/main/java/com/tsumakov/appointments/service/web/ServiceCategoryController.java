@@ -1,5 +1,6 @@
-package dev.tsumakov.appointments.service;
+package dev.tsumakov.appointments.service.web;
 
+import dev.tsumakov.appointments.service.ServiceCategoryService;
 import dev.tsumakov.appointments.service.mapper.ServiceCategoryMapper;
 import dev.tsumakov.appointments.service.web.response.ServiceCategoryResponse;
 import io.micronaut.http.HttpResponse;
