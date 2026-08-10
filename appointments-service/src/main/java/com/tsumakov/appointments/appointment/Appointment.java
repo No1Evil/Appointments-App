@@ -2,7 +2,7 @@ package dev.tsumakov.appointments.appointment;
 
 import dev.tsumakov.appointments.appointment.exception.AppointmentAlreadyCancelledException;
 import dev.tsumakov.appointments.appointment.exception.AppointmentValidationException;
-import dev.tsumakov.appointments.appointment.exception.CannotCancelCompletedAppointmentException;
+import dev.tsumakov.appointments.appointment.exception.CannotUpdateCompletedAppointmentException;
 import dev.tsumakov.appointments.appointment.status.AppointmentStatus;
 import dev.tsumakov.appointments.common.AppointmentObjects;
 import dev.tsumakov.appointments.slot.Slot;
@@ -107,7 +107,7 @@ public final class Appointment {
     if (this.isCancelled()) {
       throw new AppointmentAlreadyCancelledException("Cannot update cancelled appointment");
     } else if (this.isCompleted()) {
-      throw new CannotCancelCompletedAppointmentException("Cannot update completed appointment");
+      throw new CannotUpdateCompletedAppointmentException("Cannot update completed appointment");
     }
   }
 }

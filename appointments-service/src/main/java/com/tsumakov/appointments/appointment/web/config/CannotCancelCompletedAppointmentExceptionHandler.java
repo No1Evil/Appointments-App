@@ -1,6 +1,6 @@
 package dev.tsumakov.appointments.appointment.web.config;
 
-import dev.tsumakov.appointments.appointment.exception.CannotCancelCompletedAppointmentException;
+import dev.tsumakov.appointments.appointment.exception.CannotUpdateCompletedAppointmentException;
 import dev.tsumakov.appointments.common.web.ErrorResponse;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.HttpResponse;
@@ -12,11 +12,11 @@ import org.springframework.stereotype.Component;
 @Produces
 @Component
 public final class CannotCancelCompletedAppointmentExceptionHandler
-    implements ExceptionHandler<CannotCancelCompletedAppointmentException, HttpResponse<?>> {
+    implements ExceptionHandler<CannotUpdateCompletedAppointmentException, HttpResponse<?>> {
 
   @Override
   public HttpResponse<?> handle(HttpRequest request,
-      CannotCancelCompletedAppointmentException exception) {
+      CannotUpdateCompletedAppointmentException exception) {
     return HttpResponse.status(HttpStatus.CONFLICT)
         .body(new ErrorResponse(exception.getMessage()));
   }
