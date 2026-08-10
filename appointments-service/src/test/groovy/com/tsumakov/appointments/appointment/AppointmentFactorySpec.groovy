@@ -17,6 +17,7 @@ class AppointmentFactorySpec extends Specification {
         def patientId = UUID.randomUUID()
         def practitionerId = UUID.randomUUID()
         def serviceName = "Therapy"
+        def comment = "Some-sort-of-comment"
         def start = OffsetDateTime.now()
         def end = start.plusHours(1)
         def status = AppointmentStatus.SCHEDULED
@@ -26,7 +27,7 @@ class AppointmentFactorySpec extends Specification {
         1 * uuidFactory.generate() >> expectedUuid
 
         when: "Factory creates appointment"
-        def appointment = factory.create(slotId, patientId, serviceName, practitionerId, start, end, status)
+        def appointment = factory.create(slotId, patientId, serviceName, practitionerId, comment, start, end, status)
 
         then: "All fields are mapped correctly"
         appointment.id == expectedUuid
@@ -34,6 +35,7 @@ class AppointmentFactorySpec extends Specification {
         appointment.patientId == patientId
         appointment.practitionerId == practitionerId
         appointment.serviceName == serviceName
+        appointment.comment == comment
         appointment.startTime == start
         appointment.endTime == end
         appointment.status == status
@@ -43,7 +45,7 @@ class AppointmentFactorySpec extends Specification {
 
     void "should throw exception when slotId is null"() {
         when:
-        factory.create(null, UUID.randomUUID(), "Service", UUID.randomUUID(), OffsetDateTime.now(), OffsetDateTime.now().plusHours(1), AppointmentStatus.SCHEDULED)
+        factory.create(null, UUID.randomUUID(), "Service", UUID.randomUUID(), "comment", OffsetDateTime.now(), OffsetDateTime.now().plusHours(1), AppointmentStatus.SCHEDULED)
 
         then:
         thrown(NullPointerException)
@@ -51,7 +53,7 @@ class AppointmentFactorySpec extends Specification {
 
     void "should throw exception when serviceName is blank"() {
         when:
-        factory.create(1L, UUID.randomUUID(), "  ", UUID.randomUUID(), OffsetDateTime.now(), OffsetDateTime.now().plusHours(1), AppointmentStatus.SCHEDULED)
+        factory.create(1L, UUID.randomUUID(), "  ", UUID.randomUUID(), "comment", OffsetDateTime.now(), OffsetDateTime.now().plusHours(1), AppointmentStatus.SCHEDULED)
 
         then:
         thrown(StringValidationException)
