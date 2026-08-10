@@ -9,7 +9,7 @@ import java.time.OffsetDateTime
 
 class SlotSpec extends Specification {
 
-    private static final Random random = new Random()
+    static final Random random = new Random()
 
     static def createSlot(
             Long id = random.nextLong(),
