@@ -1,10 +1,11 @@
 package dev.tsumakov.appointments.appointment
 
 import dev.tsumakov.appointments.appointment.status.AppointmentStatus
+import dev.tsumakov.appointments.common.exception.StringValidationException
 import spock.lang.Specification
 import java.time.OffsetDateTime
-import dev.tsumakov.appointments.appointment.exception.AppointmentAlreadyCancelled
-import dev.tsumakov.appointments.appointment.exception.CannotCancelCompletedAppointment
+import dev.tsumakov.appointments.appointment.exception.AppointmentAlreadyCancelledException
+import dev.tsumakov.appointments.appointment.exception.CannotUpdateCompletedAppointmentException
 
 class AppointmentSpec extends Specification {
 
@@ -43,7 +44,7 @@ class AppointmentSpec extends Specification {
         appointment.cancel()
 
         then: "It throws AppointmentAlreadyCancelled"
-        thrown(AppointmentAlreadyCancelled)
+        thrown(AppointmentAlreadyCancelledException)
     }
 
     void "should throw exception when cancelling completed appointment"() {
@@ -54,22 +55,65 @@ class AppointmentSpec extends Specification {
         appointment.cancel()
 
         then: "It throws CannotCancelCompletedAppointment"
-        thrown(CannotCancelCompletedAppointment)
+        thrown(CannotUpdateCompletedAppointmentException)
     }
 
-    void "should update details successfully"() {
+    void "should update comment successfully"() {
         given: "An appointment"
         def appointment = createAppointment()
-        def newStart = OffsetDateTime.now().plusDays(1)
-        def newEnd = newStart.plusHours(1)
         def newComment = "New comment"
 
-        when: "We update details"
-        appointment.updateDetails(newStart, newEnd, newComment)
+        when: "We update comment"
+        appointment.updateComment(newComment)
 
-        then: "Details are updated"
-        appointment.startTime == newStart
-        appointment.endTime == newEnd
+        then: "Comment is updated"
         appointment.comment == newComment
     }
+
+    void "should throw exception when updating comment of cancelled appointment"() {
+        given: "An already cancelled appointment"
+        def appointment = createAppointment(AppointmentStatus.CANCELLED)
+
+        when: "We update comment"
+        appointment.cancel()
+
+        then: "It throws AppointmentAlreadyCancelled"
+        thrown(AppointmentAlreadyCancelledException)
+    }
+
+    void "should throw exception when updating comment of completed appointment"() {
+        given: "An already cancelled appointment"
+        def appointment = createAppointment(AppointmentStatus.COMPLETED)
+
+        when: "We update comment"
+        appointment.cancel()
+
+        then: "It throws CannotUpdateCompletedAppointmentException"
+        thrown(CannotUpdateCompletedAppointmentException)
+    }
+
+    void "should update service successfully"() {
+        given: "an appointment"
+        def appointment = createAppointment();
+        def newServiceName = "New service"
+
+        when: "We update service name"
+        appointment.updateService(newServiceName)
+
+        then: "Service name is updated"
+        appointment.serviceName == newServiceName
+    }
+
+    void "should throw exception when updating application with a service name that is empty"() {
+        given: "an appointment"
+        def appointment = createAppointment();
+        def newServiceName = ""
+
+        when: "We update service name"
+        appointment.updateService(newServiceName)
+
+        then: "It throws StringValidationException"
+        thrown(StringValidationException)
+    }
+
 }
