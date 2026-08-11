@@ -1,0 +1,36 @@
+services:
+  postgres:
+    image: postgres:16.2-alpine
+    container_name: appointments-postgres
+    environment:
+      POSTGRES_DB: appointments-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: test
+    ports:
+      - "5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      dockerfile: ./appointments-service/Dockerfile
+    container_name: appointments-service
+    environment:
+      datasources.default.url: jdbc:postgresql://postgres:5432/appointments-db
+      datasources.liquibase.url: jdbc:postgresql://postgres:5432/appointments-db
+    ports:
+      - "8001:8001"
+    depends_on:
+      - postgres
+
+  frontend:
+    build:
+      dockerfile: ./appointments-web/Dockerfile
+    container_name: appointments-web
+    ports:
+      - "4200:4200"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
