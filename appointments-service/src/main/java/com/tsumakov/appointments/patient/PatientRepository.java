@@ -23,8 +23,15 @@ public final class PatientRepository implements CrudRepository<Patient, UUID> {
       .build());
 
   @Override
-  public Optional<Patient> findBy(@NonNull UUID identifier) throws DataAccessException {
+  public Optional<Patient> findById(@NonNull UUID identifier) throws DataAccessException {
     String sql = "select * from patients where id = ?";
+    var query = jdbcTemplate.query(sql, rowMapper, identifier);
+    return query.stream().findFirst();
+  }
+
+  @Override
+  public Optional<Patient> findByIdLocking(@NonNull UUID identifier) throws DataAccessException {
+    String sql = "select * from patients where id = ? for update";
     var query = jdbcTemplate.query(sql, rowMapper, identifier);
     return query.stream().findFirst();
   }

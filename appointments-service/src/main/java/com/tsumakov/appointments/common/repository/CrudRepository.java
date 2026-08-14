@@ -8,13 +8,15 @@ import java.util.Optional;
 
 public interface CrudRepository<E, ID> {
 
-    Optional<E> findBy(@Nonnull ID identifier) throws DataAccessException;
+  Optional<E> findById(@Nonnull ID identifier) throws DataAccessException;
 
-    List<E> findAll() throws DataAccessException;
+  Optional<E> findByIdLocking(@Nonnull ID identifier) throws DataAccessException;
 
-    ID create(@Nonnull E entity) throws DataAccessException;
+  List<E> findAll() throws DataAccessException;
 
-    boolean update(@Nonnull E entity) throws DataAccessException;
+  ID create(@Nonnull E entity) throws DataAccessException;
 
-    boolean delete(@Nonnull ID identifier) throws DataAccessException;
+  boolean update(@Nonnull E entity) throws DataAccessException;
+
+  boolean delete(@Nonnull ID identifier) throws DataAccessException;
 }

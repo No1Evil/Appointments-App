@@ -14,7 +14,7 @@ public class PatientService {
   private final PatientRepository repository;
 
   public Patient findById(@Nonnull UUID uuid) {
-    return repository.findBy(uuid).orElseThrow(
+    return repository.findById(uuid).orElseThrow(
         () -> new PatientNotFoundException("Patient with id " + uuid + " not found"));
   }
 

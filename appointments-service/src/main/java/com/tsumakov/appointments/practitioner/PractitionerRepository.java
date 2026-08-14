@@ -22,8 +22,16 @@ public final class PractitionerRepository implements CrudRepository<Practitioner
   private final RowMapper<Practitioner> rowMapper;
 
   @Override
-  public Optional<Practitioner> findBy(@NonNull UUID identifier) throws DataAccessException {
+  public Optional<Practitioner> findById(@NonNull UUID identifier) throws DataAccessException {
     String sql = "select * from practitioners where id = ?";
+    var query = jdbcTemplate.query(sql, rowMapper, identifier);
+    return query.stream().findFirst();
+  }
+
+  @Override
+  public Optional<Practitioner> findByIdLocking(@NonNull UUID identifier)
+      throws DataAccessException {
+    String sql = "select * from practitioners where id = ? for update";
     var query = jdbcTemplate.query(sql, rowMapper, identifier);
     return query.stream().findFirst();
   }

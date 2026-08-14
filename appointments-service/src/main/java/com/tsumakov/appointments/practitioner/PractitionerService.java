@@ -1,7 +1,6 @@
 package dev.tsumakov.appointments.practitioner;
 
 import dev.tsumakov.appointments.practitioner.exception.PractitionerNotFoundException;
-import dev.tsumakov.appointments.slot.SlotParams;
 import jakarta.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
@@ -15,7 +14,7 @@ public class PractitionerService {
   private final PractitionerRepository repository;
 
   public Practitioner findById(UUID uuid) {
-    return repository.findBy(uuid).orElseThrow(
+    return repository.findById(uuid).orElseThrow(
         () -> new PractitionerNotFoundException("Practitioner with id " + uuid + " not found")
     );
   }

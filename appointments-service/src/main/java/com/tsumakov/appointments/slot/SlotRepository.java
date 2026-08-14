@@ -23,13 +23,14 @@ public final class SlotRepository implements CrudRepository<Slot, Long> {
   private final RowMapper<Slot> rowMapper;
 
   @Override
-  public Optional<Slot> findBy(@NonNull Long identifier) throws DataAccessException {
+  public Optional<Slot> findById(@NonNull Long identifier) throws DataAccessException {
     String sql = "select * from slots where id = ?";
     var query = jdbcTemplate.query(sql, rowMapper, identifier);
     return query.stream().findFirst();
   }
 
-  public Optional<Slot> findByWithLock(@Nonnull Long identifier) throws DataAccessException {
+  @Override
+  public Optional<Slot> findByIdLocking(@Nonnull Long identifier) throws DataAccessException {
     String sql = "select * from slots where id = ? for update";
     var query = jdbcTemplate.query(sql, rowMapper, identifier);
     return query.stream().findFirst();

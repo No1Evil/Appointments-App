@@ -35,7 +35,7 @@ public class AppointmentService {
   private final PractitionerService practitionerService;
 
   public Appointment getAppointment(UUID appointmentId) throws AppointmentNotFoundException {
-    return repository.findBy(appointmentId).orElseThrow(
+    return repository.findById(appointmentId).orElseThrow(
         () -> new AppointmentNotFoundException(
             "Appointment with id " + appointmentId + " not found"));
   }

@@ -16,10 +16,10 @@ class SlotRepositoryITSpec extends AbstractPostgresITSpec {
     static final Random random = new Random()
 
     @Inject
-    SlotRepository repository;
+    SlotRepository repository
 
     @Inject
-    JdbcTemplate jdbcTemplate;
+    JdbcTemplate jdbcTemplate
 
     ServiceCategory serviceCategory = GroovyMock(
             ServiceCategory,
@@ -42,7 +42,7 @@ class SlotRepositoryITSpec extends AbstractPostgresITSpec {
                 .service(serviceCategory)
                 .startTime(startTime)
                 .endTime(endTime)
-                .build();
+                .build()
     }
 
     void "should create and find a slot"() {
@@ -51,7 +51,7 @@ class SlotRepositoryITSpec extends AbstractPostgresITSpec {
 
         when:
         def createdId = repository.create(slot)
-        def found = repository.findBy(createdId)
+        def found = repository.findById(createdId)
 
         then:
         found.present
@@ -66,7 +66,7 @@ class SlotRepositoryITSpec extends AbstractPostgresITSpec {
 
     void "should return empty when slot not found"() {
         when:
-        var result = repository.findBy(random.nextLong())
+        var result = repository.findById(random.nextLong())
 
         then:
         result.isEmpty()
@@ -97,7 +97,7 @@ class SlotRepositoryITSpec extends AbstractPostgresITSpec {
         repository.delete(generatedId)
 
         then:
-        repository.findBy(generatedId).isEmpty()
+        repository.findById(generatedId).isEmpty()
     }
 
     void "should not delete unexisting slot"() {
@@ -117,7 +117,7 @@ class SlotRepositoryITSpec extends AbstractPostgresITSpec {
         repository.delete(generatedId)
 
         then:
-        repository.findBy(generatedId).isEmpty()
+        repository.findById(generatedId).isEmpty()
         repository.findAll().isEmpty()
     }
 
@@ -142,7 +142,7 @@ class SlotRepositoryITSpec extends AbstractPostgresITSpec {
         repository.update(newSlotObj)
 
         and:
-        def savedSlot = repository.findBy(generatedId)
+        def savedSlot = repository.findById(generatedId)
 
         then:
         savedSlot.isPresent()

@@ -38,7 +38,7 @@ public final class AppointmentRepository implements CrudRepository<Appointment, 
       .build());
 
   @Override
-  public Optional<Appointment> findBy(@NonNull UUID identifier) throws DataAccessException {
+  public Optional<Appointment> findById(@NonNull UUID identifier) throws DataAccessException {
     String sql = """
         select a.*,
           p.first_name || ' ' || p.last_name as practitioner_name,
@@ -47,6 +47,22 @@ public final class AppointmentRepository implements CrudRepository<Appointment, 
         left join practitioners p on p.id = a.practitioner_id
         left join patients pt on pt.id = a.patient_id
         where a.id = ?
+        """;
+    var query = jdbcTemplate.query(sql, rowMapper, identifier);
+    return query.stream().findFirst();
+  }
+
+  @Override
+  public Optional<Appointment> findByIdLocking(@NonNull UUID identifier)
+      throws DataAccessException {
+    String sql = """
+        select a.*,
+          p.first_name || ' ' || p.last_name as practitioner_name,
+          pt.first_name || ' ' || pt.last_name as patient_name
+        from appointments a
+        left join practitioners p on p.id = a.practitioner_id
+        left join patients pt on pt.id = a.patient_id
+        where a.id = ? for update of a
         """;
     var query = jdbcTemplate.query(sql, rowMapper, identifier);
     return query.stream().findFirst();

@@ -43,7 +43,7 @@ class AppointmentRepositoryITSpec extends AbstractPostgresITSpec {
 
         when:
         repository.create(appointment)
-        def found = repository.findBy(appointment.id)
+        def found = repository.findById(appointment.id)
 
         then:
         found.present
@@ -63,7 +63,7 @@ class AppointmentRepositoryITSpec extends AbstractPostgresITSpec {
 
     void "should return empty when appointment not found"() {
         expect:
-        repository.findBy(UUID.randomUUID()).empty
+        repository.findById(UUID.randomUUID()).empty
     }
 
     void "should return all appointments with joined names"() {
@@ -90,7 +90,7 @@ class AppointmentRepositoryITSpec extends AbstractPostgresITSpec {
 
         when:
         def updated = repository.update(appointment)
-        def found = repository.findBy(appointment.id)
+        def found = repository.findById(appointment.id)
 
         then:
         updated
@@ -107,7 +107,7 @@ class AppointmentRepositoryITSpec extends AbstractPostgresITSpec {
 
         when:
         def deleted = repository.delete(appointment.id)
-        def found = repository.findBy(appointment.id)
+        def found = repository.findById(appointment.id)
 
         then:
         deleted

@@ -36,7 +36,7 @@ class PatientRepositoryITSpec extends AbstractPostgresITSpec {
 
         when:
         repository.create(patient)
-        def found = repository.findBy(patientId)
+        def found = repository.findById(patientId)
 
         then:
         found.present
@@ -48,7 +48,7 @@ class PatientRepositoryITSpec extends AbstractPostgresITSpec {
 
     void "should return empty when patient not found"() {
         expect:
-        repository.findBy(patientId).isEmpty()
+        repository.findById(patientId).isEmpty()
     }
 
     void "should return empty list on empty table"() {
@@ -76,7 +76,7 @@ class PatientRepositoryITSpec extends AbstractPostgresITSpec {
         repository.delete(patient.id)
 
         then:
-        repository.findBy(patient.id).isEmpty()
+        repository.findById(patient.id).isEmpty()
     }
 
     void "should not delete unexisting patient"() {
@@ -96,7 +96,7 @@ class PatientRepositoryITSpec extends AbstractPostgresITSpec {
         repository.delete(patient.id)
 
         then:
-        repository.findBy(patient.id).isEmpty()
+        repository.findById(patient.id).isEmpty()
         repository.findAll().isEmpty()
     }
 

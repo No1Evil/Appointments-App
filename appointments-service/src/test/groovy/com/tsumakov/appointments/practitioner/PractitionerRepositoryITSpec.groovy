@@ -43,7 +43,7 @@ class PractitionerRepositoryITSpec extends AbstractPostgresITSpec {
 
         when:
         repository.create(practitioner)
-        def found = repository.findBy(practitioner.id)
+        def found = repository.findById(practitioner.id)
 
         then:
         found.isPresent()
@@ -58,7 +58,7 @@ class PractitionerRepositoryITSpec extends AbstractPostgresITSpec {
 
     void "should return empty when practitioner not found"() {
         expect:
-        repository.findBy(practitionerId).isEmpty()
+        repository.findById(practitionerId).isEmpty()
     }
 
     void "should return empty list on empty table"() {
@@ -86,7 +86,7 @@ class PractitionerRepositoryITSpec extends AbstractPostgresITSpec {
         repository.delete(practitioner.id)
 
         then:
-        repository.findBy(practitioner.id).isEmpty()
+        repository.findById(practitioner.id).isEmpty()
     }
 
     void "should not delete unexisting practitioner"() {
@@ -106,7 +106,7 @@ class PractitionerRepositoryITSpec extends AbstractPostgresITSpec {
         repository.delete(practitioner.id)
 
         then:
-        repository.findBy(practitioner.id).isEmpty()
+        repository.findById(practitioner.id).isEmpty()
         repository.findAll().isEmpty()
     }
 

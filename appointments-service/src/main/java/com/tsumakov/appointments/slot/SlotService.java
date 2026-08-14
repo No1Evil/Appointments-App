@@ -16,13 +16,16 @@ public class SlotService {
   private final SlotRepository slotRepository;
 
   public Slot getSlot(Long id) {
-    return slotRepository.findBy(id)
+    return slotRepository.findById(id)
         .orElseThrow(() -> new SlotNotFoundException("Slot with id " + id + " not found"));
   }
 
+  /**
+   * Finds valid slot for appointment and locks it in database
+   */
+  @Transactional
   public Slot getValidSlotForAppointment(@Nonnull Long id) {
-    Slot slot = slotRepository.findByWithLock(id)
-            .orElseThrow(() -> new SlotNotFoundException("Slot with id " + id + " not found"));
+    Slot slot = getSlotLockingInternal(id);
 
     slot.validateNotExpired();
 
@@ -69,5 +72,10 @@ public class SlotService {
   public void markSlotBooked(@Nonnull Slot slot) {
     slot.markAsBooked();
     slotRepository.update(slot);
+  }
+
+  private Slot getSlotLockingInternal(@Nonnull Long id) {
+    return slotRepository.findByIdLocking(id)
+        .orElseThrow(() -> new SlotNotFoundException("Slot with id " + id + " not found"));
   }
 }
