@@ -7,6 +7,9 @@
 appointments-web/src/app/core/api
 appointments-web/dist
 
+# Gradle
+.gradle/
+
 # Log file
 *.log
 
