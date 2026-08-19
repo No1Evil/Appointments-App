@@ -19,14 +19,6 @@ docker compose up -d
 
 and navigate to `http://localhost:4200` in your browser.
 
-*Doesn't expose database. If needed, expose using:*
-```
-services:
-  postgres:
-    ports:
-      - "5432:5432" # expose port here
-```
-
 ## Running backend tests
 
 Navigate to `appointments-service`
